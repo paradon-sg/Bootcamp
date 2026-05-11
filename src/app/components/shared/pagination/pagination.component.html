@@ -1,0 +1,48 @@
+<div
+  class="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4"
+>
+  <!-- Left -->
+  <div class="flex items-center gap-3">
+    <div>
+      <p class="text-sm text-slate-500">Current Page</p>
+
+      <p class="text-sm font-semibold text-slate-800">
+        {{ pagination().page }}
+        <span class="font-normal text-slate-400">/</span>
+        {{ pagination().total_pages }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Right -->
+  <div class="flex items-center gap-2">
+    <!-- Previous -->
+    <button
+      type="button"
+      (click)="previous()"
+      [disabled]="pagination().page === 1"
+      class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <span>←</span>
+      <span>Previous</span>
+    </button>
+
+    <!-- Page Number -->
+    <div
+      class="hidden sm:flex h-10 min-w-[40px] items-center justify-center rounded-xl bg-white px-3 text-sm font-semibold text-slate-800 border border-slate-200"
+    >
+      {{ pagination().page }}
+    </div>
+
+    <!-- Next -->
+    <button
+      type="button"
+      (click)="next()"
+      [disabled]="pagination().page === pagination().total_pages"
+      class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <span>Next</span>
+      <span>→</span>
+    </button>
+  </div>
+</div>

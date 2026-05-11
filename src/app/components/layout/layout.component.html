@@ -1,0 +1,46 @@
+<div class="fixed inset-0 flex overflow-hidden bg-slate-50">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-slate-200">
+    <div class="p-5 text-2xl font-bold text-slate-800 border-b border-slate-100">Library</div>
+
+    <nav class="p-4 space-y-2">
+      <a
+        routerLink="/books"
+        routerLinkActive="bg-slate-100 text-sky-700 font-medium"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="block px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 transition"
+      >
+        Books
+      </a>
+
+      <a
+        routerLink="/authors"
+        routerLinkActive="bg-slate-100 text-sky-700 font-medium"
+        class="block px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 transition"
+      >
+        Authors
+      </a>
+
+      <a
+        routerLink="/publishers"
+        routerLinkActive="bg-slate-100 text-sky-700 font-medium"
+        class="block px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 transition"
+      >
+        Publishers
+      </a>
+
+      <a
+        routerLink="/categories"
+        routerLinkActive="bg-slate-100 text-sky-700 font-medium"
+        class="block px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 transition"
+      >
+        Categories
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 overflow-auto p-6 bg-slate-50">
+    <router-outlet></router-outlet>
+  </main>
+</div>
