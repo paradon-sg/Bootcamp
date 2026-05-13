@@ -71,50 +71,28 @@ Angular 21 เป็นเฟรมเวิร์กที่ครบเคร
 
 **การตั้งค่าสภาพแวดล้อม:**
 
-\`\`\`bash
+```bash
 node -v
 npm -v
 npm install -g @angular/cli
 ng version
-\`\`\`
+```
 
 สร้างโปรเจกต์ใหม่:
 
-\`\`\`bash
+```bash
 ng new angular21-bootcamp --standalone --routing --style=scss
 cd angular21-bootcamp
 ng serve -o
-\`\`\`
+```
 
 ---
 
-## Project Structure & Architecture
-
-**โครงสร้างโปรเจ็ค Angular 21:**
-
-\`\`\`
-my-angular-app/
-├── node_modules/         # npm dependencies installed for the project.
-├── src/                  # The source code for your application.
-│   ├── app/              # Contains your application's components, services, etc.
-│   │   ├── app.ts                # The logic for the root component.
-│   │   ├── app.html              # The HTML template for the root component.
-│   │   ├── app.scss              # The styles specific to the root component.
-│   │   └── app.config.ts         # App-level configuration (Routing, Providers).
-│   ├── assets/           # Static assets like images, fonts, or icons.
-│   ├── index.html        # The main HTML page served to the browser.
-│   ├── main.ts           # The main entry point; compiles the application and boots it up.
-│   └── styles.scss       # Global SCSS styles applied to the whole application.
-├── angular.json          # CLI configuration (defines build setups, project defaults, etc.).
-├── package.json          # npm configuration (lists dependencies and custom scripts).
-└── tsconfig.json         # TypeScript compiler configuration.
-\`\`\`
-
-### bc-app Project Structure
+## Angular Structure
 
 **โครงสร้างของ bc-app Project:**
 
-\`\`\`
+```
 bc-app/
 ├── src/
 │   ├── app/
@@ -131,39 +109,49 @@ bc-app/
 ├── package.json                # Project dependencies and scripts
 ├── tsconfig.json               # TypeScript configuration
 └── README.md                   # Project documentation
-\`\`\`
+```
 
-### Core Files Explanation
+### Core Files
 
-- **\`src/main.ts\`**: จุดเริ่มต้นของการบูตแอป
+- **`src/main.ts`**: จุดเริ่มต้นของการบูตแอป
   - เป็นไฟล์แรกที่ทำงานเมื่อแอปเริ่มต้น
   - รับผิดชอบในการโหลด Root Component และการตั้งค่าให้กับแอป
 
-- **\`src/app/app.ts\`**: Root Component (Standalone)
+- **`src/app/app.ts`**: Root Component (Standalone)
   - เป็นคอมโพเนนต์หลักของแอป
   - ใช้รูปแบบ Standalone ไม่ต้องพึ่ง NgModule
 
-- **\`src/app/app.html\`**: HTML Template for Root Component
+- **`src/app/app.html`**: HTML Template for Root Component
   - เป็น Template HTML สำหรับ Root Component
   - ใช้สำหรับเลย์เอาต์หลักและการแสดงผลข้อมูล
 
-- **\`src/app/app.scss\`**: Styles for Root Component
+- **`src/app/app.scss`**: Styles for Root Component
   - CSS/SCSS styles สำหรับ Root Component
   - ใช้สำหรับการออกแบบ UI ของคอมโพเนนต์หลัก
 
-- **\`src/app/app.config.ts\`**: App-level Configuration
+- **`src/app/app.config.ts`**: App-level Configuration
   - ระบุ Providers ทั้งหมดของแอป
   - ตั้งค่า Global Configuration เช่น HTTP, Router, Services
 
-- **\`src/app/app.routes.ts\`**: Application Routing
+- **`src/app/app.routes.ts`**: Application Routing
   - กำหนด Routes ทั้งหมดของแอป
   - สนับสนุน Lazy Loading สำหรับ Feature Modules
 
+### Static Assets
+
+- **`src/index.html`**: Main HTML page
+  - ไฟล์ HTML หลักที่เซิร์ฟให้กับเบราว์เซอร์
+
+- **`src/styles.scss`**: Global Styles
+  - CSS/SCSS global styles สำหรับทั้งแอป
+
+- **`public/`**: Public Static Files
+  - ไฟล์ที่สามารถเข้าถึงได้จากภายนอก
+  - เช่น `favicon.ico`, `robots.txt`, manifest files
+
 ---
 
-## Angular Fundamentals
-
-### Standalone Components First
+## Standalone Components First
 
 **Standalone Component คืออะไร?**
 
@@ -175,43 +163,43 @@ bc-app/
 - เหมาะกับการเขียน unit test
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  template: \`<h2>{{ title() }}</h2>\`
+  template: `<h2>{{ title() }}</h2>`
 })
 export class WelcomeComponent {
   title = signal('Angular 21 Bootcamp');
 }
-\`\`\`
+```
 > **Best Practice:** ใช้ Standalone Component สำหรับทุก feature ใหม่ และแยกโค้ดแต่ละหน้าหรือแต่ละฟีเจอร์ออกเป็นไฟล์ของตัวเอง
 
 ---
 
-### Templates and Binding
+## Templates and Binding
 
 **รูปแบบการ Binding หลักใน Angular:**
 
-- **Interpolation:** \`{{ value }}\`
-- **Property binding:** \`[disabled]="isBusy()"\`
-- **Event binding:** \`(click)="save()"\`
-- **Two-way binding:** \`[(ngModel)]="model.name"\`
+- **Interpolation:** `{{ value }}`
+- **Property binding:** `[disabled]="isBusy()"`
+- **Event binding:** `(click)="save()"`
+- **Two-way binding:** `[(ngModel)]="model.name"`
 
 > **Tip:** ควรรักษา logic ใน template ให้เรียบง่าย และย้ายความซับซ้อนไปไว้ใน component code
 
 ---
 
-### Signals in Practice
+## Signals in Practice
 
 **Signals คืออะไร?**
 
 Signals คือ state primitive แบบใหม่ใน Angular 21 ที่ช่วยให้การจัดการ state ง่ายและมีประสิทธิภาพ
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 import { signal, computed } from '@angular/core';
 
 count = signal(0);
@@ -220,7 +208,7 @@ doubleCount = computed(() => count() * 2);
 function increment() {
   count.update(v => v + 1);
 }
-\`\`\`
+```
 
 **ข้อดี:**
 - อัปเดตเฉพาะส่วนที่เปลี่ยนจริง (fine-grained)
@@ -231,7 +219,7 @@ function increment() {
 
 ---
 
-### RxJS and Signals Together
+## RxJS and Signals Together
 
 **การใช้งาน RxJS และ Signals ร่วมกัน:**
 
@@ -239,20 +227,20 @@ function increment() {
 - **RxJS:** ใช้สำหรับ async streams, HTTP, และ event orchestration
 
 **ตัวอย่างการใช้งานร่วมกัน:**
-\`\`\`ts
+```ts
 users = toSignal(this.userService.getUsers(), { initialValue: [] });
-\`\`\`
+```
 
 ---
 
-### Dependency Injection
+## Dependency Injection
 
 **Dependency Injection (DI) ใน Angular:**
 
 DI ช่วยให้โค้ดมีความ modular และ testable
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private http = inject(HttpClient);
@@ -261,18 +249,18 @@ export class UserService {
     return this.http.get<User[]>('/api/users');
   }
 }
-\`\`\`
+```
 
 ---
 
-### Routing Fundamentals
+## Routing Fundamentals
 
 **Routing คืออะไร?**
 
 Routing คือการกำหนดเส้นทาง (URL) ให้กับแต่ละหน้าในแอป
 
 **ตัวอย่างการกำหนด routes:**
-\`\`\`ts
+```ts
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './home/home.page';
 
@@ -284,47 +272,47 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '' },
 ];
-\`\`\`
+```
 
 **การใช้งาน RouterLink ใน template:**
-\`\`\`html
+```html
 <a routerLink="/users">Users</a>
-\`\`\`
+```
 
 > **Best Practice:** ใช้ lazy loading กับ feature ขนาดใหญ่เพื่อลดขนาด bundle และเพิ่ม performance
 
 ---
 
-### Route Guards and Access Control
+## Route Guards and Access Control
 
 **Route Guards:**
 
 ใช้สำหรับควบคุมการเข้าถึงเส้นทางในแอป
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   return auth.isLoggedIn() || inject(Router).createUrlTree(['/login']);
 };
-\`\`\`
+```
 
 ---
 
-### Reactive Forms
+## Reactive Forms
 
 **Reactive Forms ใน Angular 21:**
 
 ช่วยให้การจัดการฟอร์มมีความยืดหยุ่นและควบคุมได้ง่าย
 
 **ตัวอย่างการสร้างฟอร์ม:**
-\`\`\`ts
+```ts
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-form',
-  template: \`
+  template: `
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
       <label>
         Name:
@@ -336,7 +324,7 @@ import { FormBuilder, Validators } from '@angular/forms';
       </label>
       <button type="submit" [disabled]="profileForm.invalid">Submit</button>
     </form>
-  \`,
+  `,
 })
 export class ProfileFormComponent {
   profileForm = this.fb.group({
@@ -352,20 +340,20 @@ export class ProfileFormComponent {
     }
   }
 }
-\`\`\`
+```
 
 **Best Practices:**
-- ใช้ \`FormBuilder\` เพื่อสร้างฟอร์มที่อ่านง่าย
+- ใช้ `FormBuilder` เพื่อสร้างฟอร์มที่อ่านง่าย
 - แยก validation logic ออกเป็นไฟล์หรือฟังก์ชันสำหรับการใช้งานซ้ำ
 
 ---
 
-### HTTP Client and Data Layer
+## HTTP Client and Data Layer
 
 **Angular 21 ใช้ HttpClient สำหรับการทำงานกับ API อย่างมีประสิทธิภาพ**
 
 **ตัวอย่างการเรียก API:**
-\`\`\`ts
+```ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -378,20 +366,20 @@ export class UserService {
     return this.http.get<User[]>('/api/users');
   }
 }
-\`\`\`
+```
 
 **การใช้งานในคอมโพเนนต์:**
-\`\`\`ts
+```ts
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 
 @Component({
   selector: 'app-user-list',
-  template: \`
+  template: `
     <ul>
       <li *ngFor="let user of users">{{ user.name }}</li>
     </ul>
-  \`,
+  `,
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
@@ -402,20 +390,20 @@ export class UserListComponent implements OnInit {
     this.userService.getUsers().subscribe(data => (this.users = data));
   }
 }
-\`\`\`
+```
 
 **Best Practices:**
-- ใช้ RxJS operators เช่น \`catchError\` และ \`map\` สำหรับการจัดการ error และ transform data
+- ใช้ RxJS operators เช่น `catchError` และ `map` สำหรับการจัดการ error และ transform data
 - แยก data layer ออกจาก UI layer เพื่อความยืดหยุ่น
 
 ---
 
-### Error Handling Strategy
+## Error Handling Strategy
 
 **การจัดการข้อผิดพลาดใน Angular 21 ควรมีทั้งระดับ local และ global**
 
 **ตัวอย่าง Global Error Interceptor:**
-\`\`\`ts
+```ts
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -441,7 +429,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     );
   }
 }
-\`\`\`
+```
 
 **Best Practices:**
 - ใช้ Interceptor สำหรับข้อผิดพลาดที่เกิดซ้ำ เช่น Authentication หรือ Network Error
@@ -450,222 +438,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 
 ---
 
-## Full-Stack Architecture: Frontend (Angular) + Backend (Ruby on Rails)
-
-**สถาปัตยกรรมของแอปพลิเคชัน Full-Stack:**
-
-\`\`\`
-bc-app (Angular 21 Frontend)
-│
-├── HTTP Requests (RESTful API)
-│
-└─→ Rails API Backend
-    ├── Models
-    ├── Controllers
-    ├── Services
-    └── Database
-\`\`\`
-
-### Frontend (Angular) - bc-app
-
-**หน้าที่:**
-- รับผิดชอบการแสดงผล UI/UX ให้กับผู้ใช้
-- จัดการ State และการนำทางในแอป
-- เรียก API จาก Backend เพื่อดึงและส่งข้อมูล
-- จัดการ Form Input และ Validation
-
-**Technology Stack:**
-- Angular 21 (Standalone Components)
-- TypeScript
-- RxJS (Reactive Programming)
-- SCSS (Styling)
-- Angular Router (Routing)
-- HttpClient (API Communication)
-
-**โครงสร้าง:**
-\`\`\`
-bc-app/src/app/
-├── services/          # Services for API calls and business logic
-├── components/        # Reusable UI components
-├── pages/            # Page components for routing
-├── models/           # TypeScript interfaces and types
-├── app.ts            # Root component
-├── app.routes.ts     # Route definitions
-└── app.config.ts     # App configuration
-\`\`\`
-
-### Backend (Ruby on Rails) - API Server
-
-**หน้าที่:**
-- จัดการ Database และ Business Logic
-- ให้ REST API endpoints สำหรับ Frontend
-- ตรวจสอบความถูกต้องของข้อมูล (Validation)
-- จัดการ Authentication และ Authorization
-
-**Technology Stack:**
-- Ruby on Rails (Framework)
-- PostgreSQL หรือ MySQL (Database)
-- RESTful API Design
-- Active Record (ORM)
-
-**โครงสร้าง:**
-\`\`\`
-rails-api/
-├── app/
-│   ├── models/        # Database models
-│   ├── controllers/   # API endpoints
-│   ├── serializers/   # Response formatting
-│   └── policies/      # Authorization logic
-├── config/
-│   └── routes.rb      # API route definitions
-├── db/
-│   ├── migrate/       # Database migrations
-│   └── schema.rb      # Database schema
-├── Gemfile            # Ruby dependencies
-└── config.ru          # Rails application config
-\`\`\`
-
-### API Communication Pattern
-
-**ตัวอย่าง HTTP Request from Angular to Rails:**
-
-\`\`\`ts
-// Angular Service (bc-app)
-@Injectable({ providedIn: 'root' })
-export class UserService {
-  private apiUrl = 'http://localhost:3000/api/users';
-
-  constructor(private http: HttpClient) {}
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
-  }
-
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
-  }
-
-  updateUser(id: number, user: User): Observable<User> {
-    return this.http.patch<User>(\`\${this.apiUrl}/\${id}\`, user);
-  }
-
-  deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(\`\${this.apiUrl}/\${id}\`);
-  }
-}
-\`\`\`
-
-\`\`\`ruby
-# Rails API Controller (Backend)
-class Api::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
-
-  # GET /api/users
-  def index
-    @users = User.all
-    render json: @users
-  end
-
-  # POST /api/users
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user, status: :created
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH /api/users/:id
-  def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /api/users/:id
-  def destroy
-    @user.destroy
-    render json: { message: 'User deleted' }, status: :ok
-  end
-
-  private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def user_params
-    params.require(:user).permit(:name, :email, :password)
-  end
-end
-\`\`\`
-
-### CORS Configuration for Frontend-Backend Communication
-
-**Rails Configuration (config/initializers/cors.rb):**
-\`\`\`ruby
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  allow do
-    origins 'localhost:4200' # Angular development server
-    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete]
-  end
-end
-\`\`\`
-
-**Angular HTTP Interceptor (for adding headers):**
-\`\`\`ts
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
-
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: \`Bearer \${token}\`,
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-    return next.handle(req);
-  }
-}
-\`\`\`
-
-### Development Workflow
-
-**Starting the Development Environment:**
-
-1. **Start Rails API:**
-\`\`\`bash
-cd rails-api
-bundle install
-rails db:create db:migrate
-rails s -p 3000
-\`\`\`
-
-2. **Start Angular Frontend:**
-\`\`\`bash
-cd bc-app
-npm install
-ng serve -o
-# Opens at http://localhost:4200
-\`\`\`
-
-3. **API is accessible at:**
-- \`http://localhost:3000/api/users\` (Rails API)
-- Angular frontend communicates via HttpClient
-
----
-
 ## Testing Pyramid
+
 
 การทดสอบใน Angular แบ่งเป็น 3 ระดับ:
 
@@ -674,10 +448,10 @@ ng serve -o
 - **E2E tests:** ทดสอบการใช้งานจริงแบบครบ flow (เช่น Cypress, Playwright)
 
 **ตัวอย่างคำสั่ง:**
-\`\`\`bash
+```bash
 ng test         # Unit & integration
 ng e2e          # End-to-end
-\`\`\`
+```
 
 > **Best Practice:** เขียน unit test ให้ครอบคลุม logic สำคัญ และเพิ่ม E2E test สำหรับ user journey หลัก
 
@@ -685,7 +459,7 @@ ng e2e          # End-to-end
 
 ## Example Unit Test
 
-\`\`\`ts
+```ts
 describe('CounterComponent', () => {
   it('increments count', () => {
     const fixture = TestBed.createComponent(CounterComponent);
@@ -694,15 +468,15 @@ describe('CounterComponent', () => {
     expect(component.count()).toBe(1);
   });
 });
-\`\`\`
+```
 
 ---
 
 ## Performance Checklist
 
 - Prefer lazy-loaded routes
-- Use \`OnPush\`-friendly patterns
-- Track list rendering (\`@for (...; track item.id)\`)
+- Use `OnPush`-friendly patterns
+- Track list rendering (`@for (...; track item.id)`)
 - Split heavy components
 - Avoid unnecessary subscriptions
 
@@ -710,9 +484,9 @@ describe('CounterComponent', () => {
 
 ## Build and Deploy
 
-\`\`\`bash
+```bash
 ng build --configuration production
-\`\`\`
+```
 
 Deployment options:
 
@@ -728,7 +502,7 @@ Deployment options:
 
 Lab 1: Create a product list feature
 
-- Build \`ProductCardComponent\`
+- Build `ProductCardComponent`
 - Fetch data from mock API
 - Add loading and error states
 
@@ -803,5 +577,222 @@ You now have a roadmap to:
 - Build production-ready Angular 21 apps
 - Use signals and modern Angular patterns
 - Deliver maintainable code with tests and performance in mind
+
+---
+
+## Full-Stack Architecture: Frontend (Angular) + Backend (Ruby on Rails)
+
+**สถาปัตยกรรมของแอปพลิเคชัน Full-Stack:**
+
+```
+bc-app (Angular 21 Frontend)
+│
+├── HTTP Requests (RESTful API)
+│
+└─→ Rails API Backend
+    ├── Models
+    ├── Controllers
+    ├── Services
+    └── Database
+```
+
+### Frontend (Angular) - bc-app
+
+**หน้าที่:**
+- รับผิดชอบการแสดงผล UI/UX ให้กับผู้ใช้
+- จัดการ State และการนำทางในแอป
+- เรียก API จาก Backend เพื่อดึงและส่งข้อมูล
+- จัดการ Form Input และ Validation
+
+**Technology Stack:**
+- Angular 21 (Standalone Components)
+- TypeScript
+- RxJS (Reactive Programming)
+- SCSS (Styling)
+- Angular Router (Routing)
+- HttpClient (API Communication)
+
+**โครงสร้าง:**
+```
+bc-app/src/app/
+├── services/          # Services for API calls and business logic
+├── components/        # Reusable UI components
+├── pages/            # Page components for routing
+├── models/           # TypeScript interfaces and types
+├── app.ts            # Root component
+├── app.routes.ts     # Route definitions
+└── app.config.ts     # App configuration
+```
+
+### Backend (Ruby on Rails) - API Server
+
+**หน้าที่:**
+- จัดการ Database และ Business Logic
+- ให้ REST API endpoints สำหรับ Frontend
+- ตรวจสอบความถูกต้องของข้อมูล (Validation)
+- จัดการ Authentication และ Authorization
+
+**Technology Stack:**
+- Ruby on Rails (Framework)
+- PostgreSQL หรือ MySQL (Database)
+- RESTful API Design
+- Active Record (ORM)
+
+**โครงสร้าง:**
+```
+rails-api/
+├── app/
+│   ├── models/        # Database models
+│   ├── controllers/   # API endpoints
+│   ├── serializers/   # Response formatting
+│   └── policies/      # Authorization logic
+├── config/
+│   └── routes.rb      # API route definitions
+├── db/
+│   ├── migrate/       # Database migrations
+│   └── schema.rb      # Database schema
+├── Gemfile            # Ruby dependencies
+└── config.ru          # Rails application config
+```
+
+### API Communication Pattern
+
+**ตัวอย่าง HTTP Request from Angular to Rails:**
+
+```ts
+// Angular Service (bc-app)
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private apiUrl = 'http://localhost:3000/api/users';
+
+  constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
+  }
+
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user);
+  }
+
+  updateUser(id: number, user: User): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+}
+```
+
+```ruby
+# Rails API Controller (Backend)
+class Api::UsersController < ApplicationController
+  before_action :set_user, only: [:show, :update, :destroy]
+
+  # GET /api/users
+  def index
+    @users = User.all
+    render json: @users
+  end
+
+  # POST /api/users
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      render json: @user, status: :created
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH /api/users/:id
+  def update
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /api/users/:id
+  def destroy
+    @user.destroy
+    render json: { message: 'User deleted' }, status: :ok
+  end
+
+  private
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password)
+  end
+end
+```
+
+### CORS Configuration for Frontend-Backend Communication
+
+**Rails Configuration (config/initializers/cors.rb):**
+```ruby
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins 'localhost:4200' # Angular development server
+    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete]
+  end
+end
+```
+
+**Angular HTTP Interceptor (for adding headers):**
+```ts
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor(private auth: AuthService) {}
+
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const token = this.auth.getToken();
+    if (token) {
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    return next.handle(req);
+  }
+}
+```
+
+### Development Workflow
+
+**Starting the Development Environment:**
+
+1. **Start Rails API:**
+```bash
+cd rails-api
+bundle install
+rails db:create db:migrate
+rails s -p 3000
+```
+
+2. **Start Angular Frontend:**
+```bash
+cd bc-app
+npm install
+ng serve -o
+# Opens at http://localhost:4200
+```
+
+3. **API is accessible at:**
+- `http://localhost:3000/api/users` (Rails API)
+- Angular frontend communicates via HttpClient
+
+---
 
 Questions?
