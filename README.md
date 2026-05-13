@@ -71,20 +71,20 @@ Angular 21 เป็นเฟรมเวิร์กที่ครบเคร
 
 **การตั้งค่าสภาพแวดล้อม:**
 
-\`\`\`bash
+```bash
 node -v
 npm -v
 npm install -g @angular/cli
 ng version
-\`\`\`
+```
 
 สร้างโปรเจกต์ใหม่:
 
-\`\`\`bash
+```bash
 ng new angular21-bootcamp --standalone --routing --style=scss
 cd angular21-bootcamp
 ng serve -o
-\`\`\`
+```
 
 ---
 
@@ -92,7 +92,7 @@ ng serve -o
 
 **โครงสร้างโปรเจ็ค Angular 21:**
 
-\`\`\`
+```
 my-angular-app/
 ├── node_modules/         # npm dependencies installed for the project.
 ├── src/                  # The source code for your application.
@@ -108,13 +108,13 @@ my-angular-app/
 ├── angular.json          # CLI configuration (defines build setups, project defaults, etc.).
 ├── package.json          # npm configuration (lists dependencies and custom scripts).
 └── tsconfig.json         # TypeScript compiler configuration.
-\`\`\`
+```
 
 ### bc-app Project Structure
 
 **โครงสร้างของ bc-app Project:**
 
-\`\`\`
+```
 bc-app/
 ├── src/
 │   ├── app/
@@ -131,7 +131,7 @@ bc-app/
 ├── package.json                # Project dependencies and scripts
 ├── tsconfig.json               # TypeScript configuration
 └── README.md                   # Project documentation
-\`\`\`
+```
 
 ### Core Files Explanation
 
@@ -175,7 +175,7 @@ bc-app/
 - เหมาะกับการเขียน unit test
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 import { Component, signal } from '@angular/core';
 
 @Component({
@@ -186,7 +186,7 @@ import { Component, signal } from '@angular/core';
 export class WelcomeComponent {
   title = signal('Angular 21 Bootcamp');
 }
-\`\`\`
+```
 > **Best Practice:** ใช้ Standalone Component สำหรับทุก feature ใหม่ และแยกโค้ดแต่ละหน้าหรือแต่ละฟีเจอร์ออกเป็นไฟล์ของตัวเอง
 
 ---
@@ -211,7 +211,7 @@ export class WelcomeComponent {
 Signals คือ state primitive แบบใหม่ใน Angular 21 ที่ช่วยให้การจัดการ state ง่ายและมีประสิทธิภาพ
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 import { signal, computed } from '@angular/core';
 
 count = signal(0);
@@ -220,7 +220,7 @@ doubleCount = computed(() => count() * 2);
 function increment() {
   count.update(v => v + 1);
 }
-\`\`\`
+```
 
 **ข้อดี:**
 - อัปเดตเฉพาะส่วนที่เปลี่ยนจริง (fine-grained)
@@ -239,9 +239,9 @@ function increment() {
 - **RxJS:** ใช้สำหรับ async streams, HTTP, และ event orchestration
 
 **ตัวอย่างการใช้งานร่วมกัน:**
-\`\`\`ts
+```ts
 users = toSignal(this.userService.getUsers(), { initialValue: [] });
-\`\`\`
+```
 
 ---
 
@@ -252,7 +252,7 @@ users = toSignal(this.userService.getUsers(), { initialValue: [] });
 DI ช่วยให้โค้ดมีความ modular และ testable
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private http = inject(HttpClient);
@@ -261,7 +261,7 @@ export class UserService {
     return this.http.get<User[]>('/api/users');
   }
 }
-\`\`\`
+```
 
 ---
 
@@ -272,7 +272,7 @@ export class UserService {
 Routing คือการกำหนดเส้นทาง (URL) ให้กับแต่ละหน้าในแอป
 
 **ตัวอย่างการกำหนด routes:**
-\`\`\`ts
+```ts
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './home/home.page';
 
@@ -284,12 +284,12 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '' },
 ];
-\`\`\`
+```
 
 **การใช้งาน RouterLink ใน template:**
-\`\`\`html
+```html
 <a routerLink="/users">Users</a>
-\`\`\`
+```
 
 > **Best Practice:** ใช้ lazy loading กับ feature ขนาดใหญ่เพื่อลดขนาด bundle และเพิ่ม performance
 
@@ -302,12 +302,12 @@ export const routes: Routes = [
 ใช้สำหรับควบคุมการเข้าถึงเส้นทางในแอป
 
 **ตัวอย่าง:**
-\`\`\`ts
+```ts
 export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   return auth.isLoggedIn() || inject(Router).createUrlTree(['/login']);
 };
-\`\`\`
+```
 
 ---
 
@@ -318,7 +318,7 @@ export const authGuard: CanActivateFn = () => {
 ช่วยให้การจัดการฟอร์มมีความยืดหยุ่นและควบคุมได้ง่าย
 
 **ตัวอย่างการสร้างฟอร์ม:**
-\`\`\`ts
+```ts
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -352,7 +352,7 @@ export class ProfileFormComponent {
     }
   }
 }
-\`\`\`
+```
 
 **Best Practices:**
 - ใช้ \`FormBuilder\` เพื่อสร้างฟอร์มที่อ่านง่าย
@@ -365,7 +365,7 @@ export class ProfileFormComponent {
 **Angular 21 ใช้ HttpClient สำหรับการทำงานกับ API อย่างมีประสิทธิภาพ**
 
 **ตัวอย่างการเรียก API:**
-\`\`\`ts
+```ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -378,10 +378,10 @@ export class UserService {
     return this.http.get<User[]>('/api/users');
   }
 }
-\`\`\`
+```
 
 **การใช้งานในคอมโพเนนต์:**
-\`\`\`ts
+```ts
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 
@@ -402,7 +402,7 @@ export class UserListComponent implements OnInit {
     this.userService.getUsers().subscribe(data => (this.users = data));
   }
 }
-\`\`\`
+```
 
 **Best Practices:**
 - ใช้ RxJS operators เช่น \`catchError\` และ \`map\` สำหรับการจัดการ error และ transform data
@@ -415,7 +415,7 @@ export class UserListComponent implements OnInit {
 **การจัดการข้อผิดพลาดใน Angular 21 ควรมีทั้งระดับ local และ global**
 
 **ตัวอย่าง Global Error Interceptor:**
-\`\`\`ts
+```ts
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -441,7 +441,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     );
   }
 }
-\`\`\`
+```
 
 **Best Practices:**
 - ใช้ Interceptor สำหรับข้อผิดพลาดที่เกิดซ้ำ เช่น Authentication หรือ Network Error
@@ -454,7 +454,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
 **สถาปัตยกรรมของแอปพลิเคชัน Full-Stack:**
 
-\`\`\`
+```
 bc-app (Angular 21 Frontend)
 │
 ├── HTTP Requests (RESTful API)
@@ -464,7 +464,7 @@ bc-app (Angular 21 Frontend)
     ├── Controllers
     ├── Services
     └── Database
-\`\`\`
+```
 
 ### Frontend (Angular) - bc-app
 
@@ -483,7 +483,7 @@ bc-app (Angular 21 Frontend)
 - HttpClient (API Communication)
 
 **โครงสร้าง:**
-\`\`\`
+```
 bc-app/src/app/
 ├── services/          # Services for API calls and business logic
 ├── components/        # Reusable UI components
@@ -492,7 +492,7 @@ bc-app/src/app/
 ├── app.ts            # Root component
 ├── app.routes.ts     # Route definitions
 └── app.config.ts     # App configuration
-\`\`\`
+```
 
 ### Backend (Ruby on Rails) - API Server
 
@@ -509,7 +509,7 @@ bc-app/src/app/
 - Active Record (ORM)
 
 **โครงสร้าง:**
-\`\`\`
+```
 rails-api/
 ├── app/
 │   ├── models/        # Database models
@@ -523,13 +523,13 @@ rails-api/
 │   └── schema.rb      # Database schema
 ├── Gemfile            # Ruby dependencies
 └── config.ru          # Rails application config
-\`\`\`
+```
 
 ### API Communication Pattern
 
 **ตัวอย่าง HTTP Request from Angular to Rails:**
 
-\`\`\`ts
+```ts
 // Angular Service (bc-app)
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -553,9 +553,9 @@ export class UserService {
     return this.http.delete<void>(\`\${this.apiUrl}/\${id}\`);
   }
 }
-\`\`\`
+```
 
-\`\`\`ruby
+```ruby
 # Rails API Controller (Backend)
 class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
@@ -601,22 +601,22 @@ class Api::UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password)
   end
 end
-\`\`\`
+```
 
 ### CORS Configuration for Frontend-Backend Communication
 
 **Rails Configuration (config/initializers/cors.rb):**
-\`\`\`ruby
+```ruby
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'localhost:4200' # Angular development server
     resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete]
   end
 end
-\`\`\`
+```
 
 **Angular HTTP Interceptor (for adding headers):**
-\`\`\`ts
+```ts
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService) {}
@@ -637,27 +637,27 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 }
-\`\`\`
+```
 
 ### Development Workflow
 
 **Starting the Development Environment:**
 
 1. **Start Rails API:**
-\`\`\`bash
+```bash
 cd rails-api
 bundle install
 rails db:create db:migrate
 rails s -p 3000
-\`\`\`
+```
 
 2. **Start Angular Frontend:**
-\`\`\`bash
+```bash
 cd bc-app
 npm install
 ng serve -o
 # Opens at http://localhost:4200
-\`\`\`
+```
 
 3. **API is accessible at:**
 - \`http://localhost:3000/api/users\` (Rails API)
@@ -674,10 +674,10 @@ ng serve -o
 - **E2E tests:** ทดสอบการใช้งานจริงแบบครบ flow (เช่น Cypress, Playwright)
 
 **ตัวอย่างคำสั่ง:**
-\`\`\`bash
+```bash
 ng test         # Unit & integration
 ng e2e          # End-to-end
-\`\`\`
+```
 
 > **Best Practice:** เขียน unit test ให้ครอบคลุม logic สำคัญ และเพิ่ม E2E test สำหรับ user journey หลัก
 
@@ -685,7 +685,7 @@ ng e2e          # End-to-end
 
 ## Example Unit Test
 
-\`\`\`ts
+```ts
 describe('CounterComponent', () => {
   it('increments count', () => {
     const fixture = TestBed.createComponent(CounterComponent);
@@ -694,7 +694,7 @@ describe('CounterComponent', () => {
     expect(component.count()).toBe(1);
   });
 });
-\`\`\`
+```
 
 ---
 
@@ -710,9 +710,9 @@ describe('CounterComponent', () => {
 
 ## Build and Deploy
 
-\`\`\`bash
+```bash
 ng build --configuration production
-\`\`\`
+```
 
 Deployment options:
 
