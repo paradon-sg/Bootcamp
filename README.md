@@ -1,46 +1,21 @@
----
-marp: true
-title: Angular 21 Bootcamp
-author: Bootcamp Team
-paginate: true
-theme: default
-style: |
-  section {
-    font-family: "Aptos", "Segoe UI", sans-serif;
-  }
-  h1, h2 {
-    color: #0f172a;
-  }
-  code {
-    font-size: 0.9em;
-  }
----
+## Table of Contents
 
-# Angular 21 Bootcamp
+1. [Prerequisites](#1-prerequisites)
+2. [Why Angular 21?](#2-why-angular-21)
+3. [Environment Setup](#3-environment-setup)
+4. [Project Structure & Architecture](#4-project-structure--architecture)
+5. [SPA vs MPA](#5-spa-vs-mpa)
+6. [In-depth Guides](#6-in-depth-guides)
+7. [Components](#7-components)
+8. [Template syntax](#8-template-syntax)
+9. [Built-in directives](#9-built-in-directives)
+10. [Angular Routing](#10-angular-routing)
+11. [Forms in Angular](#11-forms-in-angular)
+12. [HTTP Client and Data Layer](#12-http-client-and-data-layer)
 
-สร้างเว็บแอปพลิเคชันที่ทันสมัย รวดเร็ว และขยายขนาดได้ด้วย Angular 21
 
-- **ระยะเวลา:** 2 วัน (หรือ 1 วันแบบเข้มข้น)
-- **กลุ่มเป้าหมาย:** นักพัฒนา Frontend ระดับเริ่มต้นถึงกลาง
-- **รูปแบบ:** 40% ทฤษฎี, 60% ปฏิบัติ
 
----
-
-## Learning Outcomes
-
-**ผลลัพธ์การเรียนรู้:**
-
-เมื่อจบคอร์สนี้ ผู้เรียนจะสามารถ:
-
-- อธิบายโครงสร้างและสถาปัตยกรรมของ Angular
-- สร้างแอปพลิเคชันแบบ Standalone Component
-- ใช้ Signals และรูปแบบการจัดการ Reactivity สมัยใหม่
-- สร้างฟอร์ม, Routing, และการจัดการข้อมูล HTTP
-- ทดสอบ, ปรับปรุงประสิทธิภาพ, และ Deploy แอป Angular
-
----
-
-## Prerequisites
+## 1. Prerequisites
 
 **ความรู้พื้นฐานที่จำเป็น:**
 
@@ -49,9 +24,9 @@ style: |
 - ติดตั้ง Node.js LTS
 - ติดตั้ง VS Code พร้อม Angular Language Service Extension
 
----
 
-## Why Angular 21?
+
+## 2. Why Angular 21?
 
 **ทำไมต้อง Angular 21?**
 
@@ -65,9 +40,9 @@ Angular 21 เป็นเฟรมเวิร์กที่ครบเคร
 
 > **Tip:** Angular 21 รองรับการพัฒนาแบบ Standalone Component ทำให้โครงสร้างโปรเจกต์สะอาดและลดความซับซ้อน
 
----
 
-## Environment Setup
+
+## 3. Environment Setup
 
 **การตั้งค่าสภาพแวดล้อม:**
 
@@ -81,272 +56,609 @@ ng version
 สร้างโปรเจกต์ใหม่:
 
 ```bash
-ng new angular21-bootcamp --standalone --routing --style=scss
-cd angular21-bootcamp
-ng serve -o
+ng new angular-bootcamp --routing --style=scss
+cd angular-bootcamp
+npm start
 ```
 
----
 
-## Project Structure & Architecture
+
+## 4. Project Structure & Architecture
 
 **โครงสร้างโปรเจ็ค Angular 21:**
 
 ```
-my-angular-app/
-├── node_modules/         # npm dependencies installed for the project.
-├── src/                  # The source code for your application.
-│   ├── app/              # Contains your application's components, services, etc.
-│   │   ├── app.ts                # The logic for the root component.
-│   │   ├── app.html              # The HTML template for the root component.
-│   │   ├── app.scss              # The styles specific to the root component.
-│   │   └── app.config.ts         # App-level configuration (Routing, Providers).
-│   ├── assets/           # Static assets like images, fonts, or icons.
-│   ├── index.html        # The main HTML page served to the browser.
-│   ├── main.ts           # The main entry point; compiles the application and boots it up.
-│   └── styles.scss       # Global SCSS styles applied to the whole application.
-├── angular.json          # CLI configuration (defines build setups, project defaults, etc.).
-├── package.json          # npm configuration (lists dependencies and custom scripts).
-└── tsconfig.json         # TypeScript compiler configuration.
-```
-
-### bc-app Project Structure
-
-**โครงสร้างของ bc-app Project:**
-
-```
-bc-app/
-├── src/
-│   ├── app/
-│   │   ├── app.ts              # Root Component (Standalone)
-│   │   ├── app.html            # HTML Template for Root Component
-│   │   ├── app.scss            # Styles for Root Component
-│   │   ├── app.config.ts       # App-level configuration (Providers, Services)
-│   │   └── app.routes.ts       # Application Routing Configuration
-│   ├── main.ts                 # Main entry point; boots the application
-│   ├── index.html              # Main HTML page
-│   └── styles.scss             # Global styles for the application
-├── public/                     # Public static files (favicon, robots.txt, etc.)
-├── angular.json                # Angular CLI configuration
-├── package.json                # Project dependencies and scripts
-├── tsconfig.json               # TypeScript configuration
-└── README.md                   # Project documentation
+my-app/
+├── node_modules/               # npm dependencies installed for the project.
+├── src/                        # The source code for your application.
+│   ├── app/                    # Contains your application's components, services, etc.
+│   │   ├── app.component.ts    # The logic for the root component.
+│   │   ├── app.component.html  # The HTML template for the root component.
+│   │   ├── app.component.scss  # The styles specific to the root component.
+│   │   └── app.config.ts       # App-level configuration (Routing, Providers).
+│   ├── assets/                 # Static assets like images, fonts, or icons.
+│   ├── index.html              # The main HTML page served to the browser.
+│   ├── main.ts                 # The main entry point; compiles the application and boots it up.
+│   └── styles.scss             # Global SCSS styles applied to the whole application.
+├── angular.json                # CLI configuration (defines build setups, project defaults, etc.).
+├── package.json                # npm configuration (lists dependencies and custom scripts).
+└── tsconfig.json               # TypeScript compiler configuration.
 ```
 
 ### Core Files Explanation
 
-- **\`src/main.ts\`**: จุดเริ่มต้นของการบูตแอป
+- **`src/main.ts`**: จุดเริ่มต้นของการบูตแอป
   - เป็นไฟล์แรกที่ทำงานเมื่อแอปเริ่มต้น
   - รับผิดชอบในการโหลด Root Component และการตั้งค่าให้กับแอป
 
-- **\`src/app/app.ts\`**: Root Component (Standalone)
+- **`src/app/app.ts`**: Root Component (Standalone)
   - เป็นคอมโพเนนต์หลักของแอป
   - ใช้รูปแบบ Standalone ไม่ต้องพึ่ง NgModule
 
-- **\`src/app/app.html\`**: HTML Template for Root Component
+- **`src/app/app.html`**: HTML Template for Root Component
   - เป็น Template HTML สำหรับ Root Component
   - ใช้สำหรับเลย์เอาต์หลักและการแสดงผลข้อมูล
 
-- **\`src/app/app.scss\`**: Styles for Root Component
+- **`src/app/app.scss`**: Styles for Root Component
   - CSS/SCSS styles สำหรับ Root Component
   - ใช้สำหรับการออกแบบ UI ของคอมโพเนนต์หลัก
 
-- **\`src/app/app.config.ts\`**: App-level Configuration
+- **`src/app/app.config.ts`**: App-level Configuration
   - ระบุ Providers ทั้งหมดของแอป
   - ตั้งค่า Global Configuration เช่น HTTP, Router, Services
 
-- **\`src/app/app.routes.ts\`**: Application Routing
+- **`src/app/app.routes.ts`**: Application Routing
   - กำหนด Routes ทั้งหมดของแอป
   - สนับสนุน Lazy Loading สำหรับ Feature Modules
 
----
 
-## Angular Fundamentals
+## 5. SPA vs MPA
 
-### Standalone Components First
+- **Single-page web applications (SPAs):** คือ application ที่สามารถใช้งานบน web browser ได้โดยไม่ต้อง reload page
+- **Multi-Page Application (MPA):** คือ application ที่สามารถใช้งานบน web browser โดยเมื่อคลิกไปที่ลิงค์ต่างๆ หน้า page จะมีการ reload ใหม่
 
-**Standalone Component คืออะไร?**
+![SPA-MPA](./images/spa_mpa.png)
 
-เป็นการสร้างคอมโพเนนต์โดยไม่ต้องพึ่ง NgModule อีกต่อไป ทำให้โค้ดกระชับและแยกส่วนได้ดี
 
-**ข้อดี:**
-- ลด boilerplate code
-- ง่ายต่อการแยก feature และ lazy load
-- เหมาะกับการเขียน unit test
 
-**ตัวอย่าง:**
+## 6. In-depth Guides
+
+### Angular Signals
+
+คือระบบ reactive state แบบใหม่ใน Angular ที่ทำให้ UI อัปเดตเฉพาะส่วนที่จำเป็นเมื่อข้อมูลเปลี่ยน โดยไม่ต้องพึ่ง Zone.js หรือ Change Detection แบบสแกนทั้งแอป
+
+Signals เปลี่ยนแนวคิดจาก "ตรวจทุกอย่างตลอดเวลา" มาเป็น "อัปเดตเฉพาะจุดที่เกี่ยวข้องจริง ๆ"
+
+**ทำไม Signals ดีกว่าแบบเดิม (Change Detection) ?**
+
+ในรูปแบบเดิม Angular จะสแกน component tree ทุกครั้งที่มี event trigger เช่น click หรือ HTTP response ทำให้หลายคอมโพเนนต์ถูก re-evaluate แม้ไม่เกี่ยวกับงานในตอนนั้น แต่ Signals จะติดตาม dependency โดยตรงและอัปเดตเฉพาะส่วนที่ใช้งานข้อมูลนั้นจริง จึงลดงานที่ไม่จำเป็นและทำให้แอปรู้สึกเร็วขึ้น
+
 ```ts
-import { Component, signal } from '@angular/core';
+import { signal, computed } from "@angular/core";
 
-@Component({
-  selector: 'app-welcome',
-  standalone: true,
-  template: \`<h2>{{ title() }}</h2>\`
-})
-export class WelcomeComponent {
-  title = signal('Angular 21 Bootcamp');
-}
-```
-> **Best Practice:** ใช้ Standalone Component สำหรับทุก feature ใหม่ และแยกโค้ดแต่ละหน้าหรือแต่ละฟีเจอร์ออกเป็นไฟล์ของตัวเอง
-
----
-
-### Templates and Binding
-
-**รูปแบบการ Binding หลักใน Angular:**
-
-- **Interpolation:** \`{{ value }}\`
-- **Property binding:** \`[disabled]="isBusy()"\`
-- **Event binding:** \`(click)="save()"\`
-- **Two-way binding:** \`[(ngModel)]="model.name"\`
-
-> **Tip:** ควรรักษา logic ใน template ให้เรียบง่าย และย้ายความซับซ้อนไปไว้ใน component code
-
----
-
-### Signals in Practice
-
-**Signals คืออะไร?**
-
-Signals คือ state primitive แบบใหม่ใน Angular 21 ที่ช่วยให้การจัดการ state ง่ายและมีประสิทธิภาพ
-
-**ตัวอย่าง:**
-```ts
-import { signal, computed } from '@angular/core';
-
-count = signal(0);
+count = signal<number>(0);
 doubleCount = computed(() => count() * 2);
 
 function increment() {
-  count.update(v => v + 1);
+  count.update((v) => v + 1);
 }
 ```
 
 **ข้อดี:**
+
 - อัปเดตเฉพาะส่วนที่เปลี่ยนจริง (fine-grained)
-- อ่าน/เขียน state ได้ predictable
+- อ่าน/เขียน state ได้ predictable ( คาดเดาได้ง่ายว่า state จะเปลี่ยนเมื่อไร เปลี่ยนจากอะไร และผลลัพธ์จะเป็นอะไร )
 - ใช้งานง่ายสำหรับ local UI state
 
 > **Best Practice:** ใช้ signals สำหรับ state ภายในคอมโพเนนต์ และใช้ RxJS สำหรับ async data หรือ global state
 
----
 
-### RxJS and Signals Together
 
-**การใช้งาน RxJS และ Signals ร่วมกัน:**
+## 7. Components
 
-- **Signals:** ใช้สำหรับ local component state
-- **RxJS:** ใช้สำหรับ async streams, HTTP, และ event orchestration
+เป็นส่วนประกอบเป็นองค์ประกอบพื้นฐานในการสร้าง Application ใน Angular หน้าที่ของผู้พัฒนาก็คือการสร้าง Component ของตัวเองขึ้นมาแล้วเอามาประกอบกันในหน้าเว็บ ซึ่งที่ Angular แนะนำให้แบ่งโครงสร้างและจัดระเบียบเป็น component ย่อยๆ เพื่อที่จะให้ในแต่ละส่วนทำวงานอย่างเต็มประสิทธิภาพและบำรุงรักษาได้ง่าย
 
-**ตัวอย่างการใช้งานร่วมกัน:**
+### Component selector
+
+คือ “ชื่อ tag” ที่ใช้เรียก component ใน HTML ของ Angular
+
 ```ts
-users = toSignal(this.userService.getUsers(), { initialValue: [] });
+@Component({
+  selector: "app-book-list",
+  template: `<h1>Books</h1>`,
+})
+export class BookListComponent {}
 ```
 
----
+```html
+<app-book-list></app-book-list>
+```
 
-### Dependency Injection
+### Styling components
 
-**Dependency Injection (DI) ใน Angular:**
+คือการ “กำหนด style ให้ component” ใน Angular โดยจะมีการเขียน 2 แบบ
 
-DI ช่วยให้โค้ดมีความ modular และ testable
-
-**ตัวอย่าง:**
 ```ts
-@Injectable({ providedIn: 'root' })
-export class UserService {
-  private http = inject(HttpClient);
+@Component({
+  selector: "profile-photo",
+  template: `<img src="profile-photo.jpg" alt="Your profile photo" />`,
+  styles: `
+    img {
+      border-radius: 50%;
+    }
+  `,
+})
+export class ProfilePhoto {}
+```
 
-  getUsers() {
-    return this.http.get<User[]>('/api/users');
+```ts
+@Component({
+  selector: "profile-photo",
+  templateUrl: "profile-photo.html",
+  styleUrl: "profile-photo.css",
+})
+export class ProfilePhoto {}
+```
+
+### Accepting data with input properties
+
+คือการรับข้อมูลจาก parent component เข้ามาใน child component
+
+```ts
+import { Component, input } from "@angular/core";
+
+@Component({
+  selector: "app-user-card",
+  template: `<h1>{{ name }}</h1>`,
+})
+export class UserCardComponent {
+  public name = input<string | null>(null);
+}
+```
+
+```html
+<app-user-card [name]="'John'"></app-user-card>
+```
+
+### Custom events with outputs
+
+คือการส่ง event จาก child component กลับไปหา parent component
+
+```ts
+import { Component, output } from "@angular/core";
+
+@Component({
+  selector: "app-child",
+  template: ` <button (click)="submit()">Submit</button> `,
+})
+export class ChildComponent {
+  countChanged = output<number>();
+
+  submit() {
+    this.countChanged.emit(100);
   }
 }
 ```
 
----
+```html
+<app-child (countChanged)="onChanged($event)"></app-child>
+```
 
-### Routing Fundamentals
-
-**Routing คืออะไร?**
-
-Routing คือการกำหนดเส้นทาง (URL) ให้กับแต่ละหน้าในแอป
-
-**ตัวอย่างการกำหนด routes:**
 ```ts
-import { Routes } from '@angular/router';
-import { HomePageComponent } from './home/home.page';
+import { Component } from "@angular/core";
+import { ChildComponent } from "./child.component";
 
+@Component({
+  selector: "app-parent",
+  imports: [ChildComponent],
+  template: `
+    <h2>Parent Component</h2>
+    <app-child (countChanged)="onChanged($event)"></app-child>
+  `,
+})
+export class ParentComponent {
+  onChanged(count: number) {
+    console.log("Received from child:", count);
+  }
+}
+```
+
+Summary
+
+```bash
+Parent → ส่ง data → Child (input)
+
+Child → ส่ง event → Parent (output)
+```
+
+### Component Lifecycle
+
+| Phase            | Method                  | Summary                                                                                                                                                                                            |
+| - | -- | -- |
+| Creation         | `constructor`           | Standard JavaScript class constructor. Runs when Angular instantiates the component. <br> <span style="color:#0f172a">(คอนสตรัคเตอร์ของคลาส เรียกเมื่อ Angular สร้างอินสแตนซ์ของคอมโพเนนต์)</span> |
+| Change Detection | `ngOnInit`              | Runs once after Angular has initialized all the component's inputs. <br> <span style="color:#0f172a">(ทำงานครั้งเดียวหลังจากอินพุตของคอมโพเนนต์ถูกกำหนดค่าเสร็จ)</span>                            |
+| Change Detection | `ngOnChanges`           | Runs every time the component's inputs have changed. <br> <span style="color:#0f172a">(ทำงานทุกครั้งที่อินพุตของคอมโพเนนต์มีการเปลี่ยนแปลง)</span>                                                 |
+| Change Detection | `ngDoCheck`             | Runs every time this component is checked for changes. <br> <span style="color:#0f172a">(ทำงานทุกครั้งที่ Angular ตรวจสอบการเปลี่ยนแปลงของคอมโพเนนต์นี้)</span>                                    |
+| Change Detection | `ngAfterContentInit`    | Runs once after the component's content has been initialized. <br> <span style="color:#0f172a">(ทำงานครั้งเดียวหลังจากเนื้อหา content projection ถูกกำหนดค่าเสร็จ)</span>                          |
+| Change Detection | `ngAfterContentChecked` | Runs every time this component content has been checked for changes. <br> <span style="color:#0f172a">(ทำงานทุกครั้งที่เนื้อหา content projection ถูกตรวจสอบการเปลี่ยนแปลง)</span>                 |
+| Change Detection | `ngAfterViewInit`       | Runs once after the component's view has been initialized. <br> <span style="color:#0f172a">(ทำงานครั้งเดียวหลังจาก view ของคอมโพเนนต์ถูกสร้างเสร็จ)</span>                                        |
+| Change Detection | `ngAfterViewChecked`    | Runs every time the component's view has been checked for changes. <br> <span style="color:#0f172a">(ทำงานทุกครั้งที่ view ของคอมโพเนนต์ถูกตรวจสอบการเปลี่ยนแปลง)</span>                           |
+| Rendering        | `afterNextRender`       | Runs once the next time that all components have been rendered to the DOM. <br> <span style="color:#0f172a">(ทำงานหนึ่งครั้งหลังจากทุกคอมโพเนนต์ถูกเรนเดอร์ลง DOM รอบถัดไป)</span>                 |
+| Rendering        | `afterEveryRender`      | Runs every time all components have been rendered to the DOM. <br> <span style="color:#0f172a">(ทำงานทุกครั้งหลังจากทุกคอมโพเนนต์ถูกเรนเดอร์ลง DOM)</span>                                         |
+| Destruction      | `ngOnDestroy`           | Runs once before the component is destroyed. <br> <span style="color:#0f172a">(ทำงานครั้งเดียวก่อนที่คอมโพเนนต์จะถูกทำลาย)</span>                                                                  |
+
+
+
+## 8. Template syntax
+
+### Render dynamic text with text interpolation
+
+คือการแสดงข้อมูล dynamic ใน template
+
+```ts
+@Component({
+  template: `
+    <p>Your color preference is {{ theme() }}.</p>
+  `,
+  ...
+})
+export class App {
+  theme = signal<string>('dark');
+}
+```
+
+### Adding event listeners
+
+คือการเพิ่มตัวดักจับ event
+
+```ts
+@Component({
+  template: `
+    <input type="text" (keyup)="updateField()" />
+  `,
+  ...
+})
+export class App{
+  public updateField(): void {
+    console.log('Field is updated!');
+  }
+}
+```
+
+### Two-way binding
+
+คือการ “ผูกข้อมูลสองทาง” ระหว่าง component <=> UI
+
+```ts
+import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+@Component({
+  imports: [FormsModule],
+  template: `
+    <main>
+      <h2>Hello {{ firstName }}!</h2>
+      <input type="text" [(ngModel)]="firstName" />
+    </main>
+  `,
+})
+export class App {
+  firstName = "Ada";
+}
+```
+
+### Control flow
+
+คือการควบคุมการทำงานหรือการแสดงผลตามเงื่อนไข
+
+```html 
+@if (a > b) {
+  <p>{{ a }} is greater than {{ b }}</p>
+}
+
+@if (a > b) {
+  {{ a }} is greater than {{ b }}
+} @else {
+  {{ a }} is equal to {{ b }}
+}
+
+@for (item of items; track item.id) {
+  {{ item.name }}
+}
+
+@switch (userPermissions) {
+  @case ('admin') {
+    <app-admin-dashboard />
+  }
+  @case ('reviewer')
+  @case ('editor') {
+    <app-editor-dashboard />
+  }
+  @default {
+    <app-viewer-dashboard />
+  }
+}
+```
+
+### Pipes
+
+คือ feature ใน Angular ที่ใช้ “แปลงหรือ format ข้อมูลก่อนแสดงผลใน template”
+
+```html
+<main>
+  <!-- Transform the company name to title-case and transform the purchasedOn date to a locale-formatted string -->
+  <h1>Purchases from {{ company | titlecase }} on {{ purchasedOn | date }}</h1>
+  <!-- Transform the amount to a currency-formatted string -->
+  <p>Total: {{ amount | currency }}</p>
+</main>
+
+<main>
+  <h1>Purchases from Acme Corporation on Jul 8, 2024</h1>
+  <p>Total: $123.45</p>
+</main>
+```
+
+```ts
+import { Component } from "@angular/core";
+import { CurrencyPipe, DatePipe, TitleCasePipe } from "@angular/common";
+@Component({
+  selector: "app-root",
+  imports: [CurrencyPipe, DatePipe, TitleCasePipe],
+  template: "app.component.html",
+})
+export class ShoppingCart {
+  amount = 123.45;
+  company = "acme corporation";
+  purchasedOn = "2024-07-08";
+}
+```
+
+
+
+## 9. Built-in directives
+
+คือ “คำสั่งพิเศษที่ Angular ใช้ควบคุม HTML หรือ DOM”
+
+### NgClass
+
+คือ directive ใน Angular ที่ใช้ “เพิ่ม/ลบ CSS class แบบ dynamic”
+
+```html
+<some-element [class]="'first second'">...</some-element>
+<some-element [class.expanded]="isExpanded">...</some-element>
+<some-element [class]="['first', 'second']">...</some-element>
+<some-element [class]="{'first': true, 'second': true, 'third': false}"
+  >...</some-element
+>
+```
+
+### NgStyle
+
+คือ directive ใน Angular ที่ใช้ “กำหนด CSS style แบบ dynamic”
+
+```html
+<some-element [ngStyle]="{'max-width.px': widthExp}">...</some-element>
+```
+
+### NgModel
+
+คือ directive ใน Angular ที่ใช้ทำ: [Two-way binding](#two-way-binding)
+
+
+## 10. Angular Routing
+
+คือการกำหนดเส้นทาง (URL Path) ของแอป ว่าเมื่อผู้ใช้เข้า URL ไหน ให้แสดงหน้าไหนหรือ component อะไร
+
+```ts
+import { Routes } from "@angular/router";
+import { HomePage } from "./home-page";
+import { AdminPage } from "./admin-page";
 export const routes: Routes = [
-  { path: '', component: HomePageComponent },
   {
-    path: 'users',
-    loadComponent: () => import('./users/users.page').then(m => m.UsersPage),
+    path: "",
+    component: HomePage,
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: "admin",
+    component: AdminPage,
+  },
 ];
 ```
 
-**การใช้งาน RouterLink ใน template:**
+### Show routes with outlets
+
+คือการแสดงผล component ตาม route ผ่าน `<router-outlet>`
+ใน Angular router-outlet เป็นตำแหน่งที่ Angular จะเอา component ของ route ปัจจุบันมา render
+
 ```html
-<a routerLink="/users">Users</a>
+<app-header />
+<router-outlet />
+<app-footer />
 ```
 
-> **Best Practice:** ใช้ lazy loading กับ feature ขนาดใหญ่เพื่อลดขนาด bundle และเพิ่ม performance
-
----
-
-### Route Guards and Access Control
-
-**Route Guards:**
-
-ใช้สำหรับควบคุมการเข้าถึงเส้นทางในแอป
-
-**ตัวอย่าง:**
 ```ts
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+@Component({
+  selector: "app-root",
+  imports: [RouterOutlet],
+  templateUrl: "./app.html",
+  styleUrl: "./app.css",
+})
+export class App {}
+```
+
+```ts
+import { Routes } from "@angular/router";
+import { Home } from "./home";
+import { Products } from "./products";
+const routes: Routes = [
+  {
+    path: "",
+    component: Home,
+    title: "Home Page",
+  },
+  {
+    path: "products",
+    component: Products,
+    title: "Our Products",
+  },
+];
+```
+
+### Navigate to routes
+
+คือการเปลี่ยนหน้า (route) ไปยัง URL อื่นใน Angular
+
+```html
+<nav>
+  <a routerLink="/user-profile">User profile</a>
+  <a routerLink="/settings">Settings</a>
+
+  <!-- Navigates user to /dashboard -->
+  <a routerLink="dashboard">Dashboard</a>
+  <a [routerLink]="['dashboard']">Dashboard</a>
+
+  <a [routerLink]="['user', currentUserId]">Current User</a>
+</nav>
+```
+
+```ts
+import { RouterLink } from "@angular/router";
+@Component({
+  templateUrl: "./app.component.html",
+  imports: [RouterLink],
+})
+export class App {}
+```
+
+```ts
+import { Router } from "@angular/router";
+@Component({
+  selector: "app-dashboard",
+  template: ` <button (click)="navigateToProfile()">View Profile</button> `,
+})
+export class AppDashboard {
+  private router = inject(Router);
+  navigateToProfile() {
+    // Standard navigation
+    this.router.navigate(["/profile"]);
+    // With route parameters
+    this.router.navigate(["/users", userId]);
+    // With query parameters
+    this.router.navigate(["/search"], {
+      queryParams: { category: "books", sort: "price" },
+    });
+    // With matrix parameters
+    this.router.navigate(["/products", { featured: true, onSale: true }]);
+  }
+}
+```
+
+### Read route state
+
+คือการอ่านข้อมูลของ route ปัจจุบันใน Angular
+
+```ts
+import { Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+@Component({
+  selector: "app-product",
+})
+export class Product {
+  private activatedRoute = inject(ActivatedRoute);
+
+  constructor() {
+    // Access route parameters
+    this.activatedRoute.params.subscribe((params) => {
+      this.productId.set(params["id"]);
+    });
+  }
+}
+```
+
+### Redirecting Routes
+
+คือการเปลี่ยนเส้นทางจาก route หนึ่งไปอีก route หนึ่งอัตโนมัติใน Angular
+
+```ts
+import { Routes } from "@angular/router";
+
+const routes: Routes = [
+  // Simple redirect
+  { path: "marketing", redirectTo: "newsletter" },
+  // Redirect with path parameters
+  { path: "legacy-user/:id", redirectTo: "users/:id" },
+  // Redirect any other URLs that don’t match
+  // (also known as a "wildcard" redirect)
+  { path: "**", redirectTo: "/login" },
+];
+```
+
+### Control route access with guards
+
+คือการควบคุมสิทธิ์การเข้าถึง route ใน Angular
+
+```ts
+import { CanActivateFn, Router } from "@angular/router";
+import { inject } from "@angular/core";
+
 export const authGuard: CanActivateFn = () => {
-  const auth = inject(AuthService);
-  return auth.isLoggedIn() || inject(Router).createUrlTree(['/login']);
+  const router = inject(Router);
+
+  const isLoggedIn = false;
+
+  if (isLoggedIn) {
+    return true;
+  }
+
+  return router.createUrlTree(["/login"]);
 };
 ```
 
----
+```ts
+export const routes: Routes = [
+  {
+    path: "books",
+    component: BooksComponent,
+    canActivate: [authGuard],
+  },
+];
+```
+
+
+## 11. Forms in Angular
 
 ### Reactive Forms
+คือระบบจัดการฟอร์ม เช่น รับ input จากผู้ใช้ validation submit data bind data กับ component
 
-**Reactive Forms ใน Angular 21:**
+```html
+<form [formGroup]="profileForm" (ngSubmit)="submit()">
+  <label> Name: <input formControlName="name" /> </label>
+  <label> Email: <input formControlName="email" type="email" /> </label>
 
-ช่วยให้การจัดการฟอร์มมีความยืดหยุ่นและควบคุมได้ง่าย
+  <button type="submit" [disabled]="profileForm.invalid">Submit</button>
+</form>
+```
 
-**ตัวอย่างการสร้างฟอร์ม:**
 ```ts
-import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component } from "@angular/core";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-profile-form',
-  template: \`
-    <form [formGroup]="profileForm" (ngSubmit)="submit()">
-      <label>
-        Name:
-        <input formControlName="name" />
-      </label>
-      <label>
-        Email:
-        <input formControlName="email" type="email" />
-      </label>
-      <button type="submit" [disabled]="profileForm.invalid">Submit</button>
-    </form>
-  \`,
+  selector: "app-profile-form",
+  templateUrl: "app.component.html",
 })
 export class ProfileFormComponent {
-  profileForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-  });
+  profileForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.profileForm = this.fb.group({
+      name: ["", [Validators.required, Validators.minLength(2)]],
+      email: ["", [Validators.required, Validators.email]],
+    });
+  }
 
-  submit() {
+  publice submit() {
     if (this.profileForm.valid) {
       console.log(this.profileForm.value);
     }
@@ -354,454 +666,68 @@ export class ProfileFormComponent {
 }
 ```
 
-**Best Practices:**
-- ใช้ \`FormBuilder\` เพื่อสร้างฟอร์มที่อ่านง่าย
-- แยก validation logic ออกเป็นไฟล์หรือฟังก์ชันสำหรับการใช้งานซ้ำ
+## 12. HTTP Client and Data Layer
 
----
+ใน Angular 21 การใช้งาน HttpClient สำหรับติดต่อ API ในโปรเจกต์แบบ Standalone จำเป็นต้องเปิดใช้งานผ่าน provideHttpClient โดยเพิ่มไว้ใน providers ของระดับแอปภายในไฟล์ app.config.ts
 
-### HTTP Client and Data Layer
-
-**Angular 21 ใช้ HttpClient สำหรับการทำงานกับ API อย่างมีประสิทธิภาพ**
-
-**ตัวอย่างการเรียก API:**
 ```ts
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
 
-@Injectable({ providedIn: 'root' })
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+};
+```
+
+```ts
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+
+@Injectable({ providedIn: "root" })
 export class UserService {
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/users');
+    return this.http.get<User[]>("/api/users");
   }
 }
 ```
 
 **การใช้งานในคอมโพเนนต์:**
+
+```html
+<ul>
+  @for (user of users(); track user.id) {
+    <li>{{ user.name }}</li>
+  }
+</ul>
+```
+
 ```ts
-import { Component, OnInit } from '@angular/core';
-import { UserService } from './user.service';
+import { Component, OnInit } from "@angular/core";
+import { UserService } from "./user.service";
 
 @Component({
-  selector: 'app-user-list',
-  template: \`
-    <ul>
-      <li *ngFor="let user of users">{{ user.name }}</li>
-    </ul>
-  \`,
+  selector: "app-user-list",
+  template: "app.component.html",
 })
 export class UserListComponent implements OnInit {
-  users: User[] = [];
+  users = signal<User[]>([]);
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.getUsers().subscribe(data => (this.users = data));
+    this.userService.getUsers().subscribe({
+      next: (users) => {
+        this.users.set(users);
+      },
+    });
   }
 }
 ```
-
-**Best Practices:**
-- ใช้ RxJS operators เช่น \`catchError\` และ \`map\` สำหรับการจัดการ error และ transform data
-- แยก data layer ออกจาก UI layer เพื่อความยืดหยุ่น
-
----
-
-### Error Handling Strategy
-
-**การจัดการข้อผิดพลาดใน Angular 21 ควรมีทั้งระดับ local และ global**
-
-**ตัวอย่าง Global Error Interceptor:**
-```ts
-import { Injectable } from '@angular/core';
-import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    return next(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('HTTP Error:', error);
-        return throwError(() => error);
-      })
-    );
-  }
-}
-```
-
-**Best Practices:**
-- ใช้ Interceptor สำหรับข้อผิดพลาดที่เกิดซ้ำ เช่น Authentication หรือ Network Error
-- แสดงข้อความ error ที่เหมาะสมกับผู้ใช้ใน UI
-- บันทึกข้อผิดพลาดสำคัญลงระบบ logging เพื่อการ debug
-
----
-
-## Full-Stack Architecture: Frontend (Angular) + Backend (Ruby on Rails)
-
-**สถาปัตยกรรมของแอปพลิเคชัน Full-Stack:**
-
-```
-bc-app (Angular 21 Frontend)
-│
-├── HTTP Requests (RESTful API)
-│
-└─→ Rails API Backend
-    ├── Models
-    ├── Controllers
-    ├── Services
-    └── Database
-```
-
-### Frontend (Angular) - bc-app
-
-**หน้าที่:**
-- รับผิดชอบการแสดงผล UI/UX ให้กับผู้ใช้
-- จัดการ State และการนำทางในแอป
-- เรียก API จาก Backend เพื่อดึงและส่งข้อมูล
-- จัดการ Form Input และ Validation
-
-**Technology Stack:**
-- Angular 21 (Standalone Components)
-- TypeScript
-- RxJS (Reactive Programming)
-- SCSS (Styling)
-- Angular Router (Routing)
-- HttpClient (API Communication)
-
-**โครงสร้าง:**
-```
-bc-app/src/app/
-├── services/          # Services for API calls and business logic
-├── components/        # Reusable UI components
-├── pages/            # Page components for routing
-├── models/           # TypeScript interfaces and types
-├── app.ts            # Root component
-├── app.routes.ts     # Route definitions
-└── app.config.ts     # App configuration
-```
-
-### Backend (Ruby on Rails) - API Server
-
-**หน้าที่:**
-- จัดการ Database และ Business Logic
-- ให้ REST API endpoints สำหรับ Frontend
-- ตรวจสอบความถูกต้องของข้อมูล (Validation)
-- จัดการ Authentication และ Authorization
-
-**Technology Stack:**
-- Ruby on Rails (Framework)
-- PostgreSQL หรือ MySQL (Database)
-- RESTful API Design
-- Active Record (ORM)
-
-**โครงสร้าง:**
-```
-rails-api/
-├── app/
-│   ├── models/        # Database models
-│   ├── controllers/   # API endpoints
-│   ├── serializers/   # Response formatting
-│   └── policies/      # Authorization logic
-├── config/
-│   └── routes.rb      # API route definitions
-├── db/
-│   ├── migrate/       # Database migrations
-│   └── schema.rb      # Database schema
-├── Gemfile            # Ruby dependencies
-└── config.ru          # Rails application config
-```
-
-### API Communication Pattern
-
-**ตัวอย่าง HTTP Request from Angular to Rails:**
-
-```ts
-// Angular Service (bc-app)
-@Injectable({ providedIn: 'root' })
-export class UserService {
-  private apiUrl = 'http://localhost:3000/api/users';
-
-  constructor(private http: HttpClient) {}
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
-  }
-
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
-  }
-
-  updateUser(id: number, user: User): Observable<User> {
-    return this.http.patch<User>(\`\${this.apiUrl}/\${id}\`, user);
-  }
-
-  deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(\`\${this.apiUrl}/\${id}\`);
-  }
-}
-```
-
-```ruby
-# Rails API Controller (Backend)
-class Api::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
-
-  # GET /api/users
-  def index
-    @users = User.all
-    render json: @users
-  end
-
-  # POST /api/users
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user, status: :created
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH /api/users/:id
-  def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /api/users/:id
-  def destroy
-    @user.destroy
-    render json: { message: 'User deleted' }, status: :ok
-  end
-
-  private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def user_params
-    params.require(:user).permit(:name, :email, :password)
-  end
-end
-```
-
-### CORS Configuration for Frontend-Backend Communication
-
-**Rails Configuration (config/initializers/cors.rb):**
-```ruby
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  allow do
-    origins 'localhost:4200' # Angular development server
-    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete]
-  end
-end
-```
-
-**Angular HTTP Interceptor (for adding headers):**
-```ts
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
-
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: \`Bearer \${token}\`,
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-    return next.handle(req);
-  }
-}
-```
-
-### Development Workflow
-
-**Starting the Development Environment:**
-
-1. **Start Rails API:**
-```bash
-cd rails-api
-bundle install
-rails db:create db:migrate
-rails s -p 3000
-```
-
-2. **Start Angular Frontend:**
-```bash
-cd bc-app
-npm install
-ng serve -o
-# Opens at http://localhost:4200
-```
-
-3. **API is accessible at:**
-- \`http://localhost:3000/api/users\` (Rails API)
-- Angular frontend communicates via HttpClient
-
----
-
-## Testing Pyramid
-
-การทดสอบใน Angular แบ่งเป็น 3 ระดับ:
-
-- **Unit tests:** ทดสอบฟังก์ชันหรือคอมโพเนนต์แยกส่วน (รวดเร็ว)
-- **Integration tests:** ทดสอบการทำงานร่วมกันของหลายส่วน
-- **E2E tests:** ทดสอบการใช้งานจริงแบบครบ flow (เช่น Cypress, Playwright)
-
-**ตัวอย่างคำสั่ง:**
-```bash
-ng test         # Unit & integration
-ng e2e          # End-to-end
-```
-
-> **Best Practice:** เขียน unit test ให้ครอบคลุม logic สำคัญ และเพิ่ม E2E test สำหรับ user journey หลัก
-
----
-
-## Example Unit Test
-
-```ts
-describe('CounterComponent', () => {
-  it('increments count', () => {
-    const fixture = TestBed.createComponent(CounterComponent);
-    const component = fixture.componentInstance;
-    component.increment();
-    expect(component.count()).toBe(1);
-  });
-});
-```
-
----
-
-## Performance Checklist
-
-- Prefer lazy-loaded routes
-- Use \`OnPush\`-friendly patterns
-- Track list rendering (\`@for (...; track item.id)\`)
-- Split heavy components
-- Avoid unnecessary subscriptions
-
----
-
-## Build and Deploy
-
-```bash
-ng build --configuration production
-```
-
-Deployment options:
-
-- Firebase Hosting
-- Netlify
-- Vercel
-- Azure Static Web Apps
-- Nginx static hosting
-
----
-
-## Hands-on Labs
-
-Lab 1: Create a product list feature
-
-- Build \`ProductCardComponent\`
-- Fetch data from mock API
-- Add loading and error states
-
-Lab 2: Add product details route
-
-- Lazy-load page
-- Resolve data by id
-
-Lab 3: Form + validation
-
-- Build product create form
-- Client-side validation messages
-
----
-
-## Capstone Challenge
-
-Build a mini app in teams:
-
-- Authentication shell (mock)
-- Dashboard with chart cards
-- CRUD for one resource
-- Route protection and form validation
-- Unit tests for one service + one component
-
----
-
-## Suggested Timeline (1 Day)
-
-- 09:00-10:00: Setup + Angular fundamentals
-- 10:00-11:30: Components, templates, signals
-- 11:30-12:30: Routing and forms
-- 13:30-15:00: Services, HTTP, error handling
-- 15:00-16:00: Testing and performance
-- 16:00-17:00: Capstone + demos
-
----
-
-## Common Pitfalls
-
-- Putting business logic directly in templates
-- Overusing shared mutable state
-- Missing error states in async UI
-- Not testing critical workflows
-- Premature optimization before measurement
-
----
-
-## Recommended Tooling
-
-- Angular Language Service
-- ESLint + Prettier
-- Husky + lint-staged
-- Vitest or Jasmine/Karma (team standard)
-- Playwright or Cypress for E2E
-
----
-
-## Resources
-
-- Angular Docs: https://angular.dev
-- Angular CLI Reference: https://angular.dev/tools/cli
-- RxJS Docs: https://rxjs.dev
-- TypeScript Docs: https://www.typescriptlang.org/docs/
-
----
-
-## Wrap-Up
-
-You now have a roadmap to:
-
-- Build production-ready Angular 21 apps
-- Use signals and modern Angular patterns
-- Deliver maintainable code with tests and performance in mind
-
-Questions?
