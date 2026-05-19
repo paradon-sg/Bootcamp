@@ -1,4 +1,4 @@
-# BCBook API
+# BC Book API
 
 REST API สำหรับจัดการข้อมูลหนังสือ ผู้แต่ง สำนักพิมพ์ และหมวดหมู่
 
@@ -12,423 +12,207 @@ http://localhost:3000
 
 ---
 
-## Publishers (สำนักพิมพ์)
+## Models
 
-### GET /api/v1/publishers
-ดึงข้อมูลสำนักพิมพ์ทั้งหมด
+### GET Parameters (ตัวอย่างการส่ง parameter)
 
-**Response 200**
+รองรับทุก model สำหรับ endpoint แบบ index:
+
+- `page` ค่าเริ่มต้นคือ `1`
+- `per_page` ค่าเริ่มต้นคือ `10`
+
+ตัวอย่าง:
+
+```http
+GET /api/v1/publishers?page=1&per_page=5
+GET /api/v1/authors?page=2&per_page=10
+GET /api/v1/categories?page=1&per_page=20
+GET /api/v1/books?page=3&per_page=5
+```
+
+รองรับทุก model สำหรับ endpoint แบบ show:
+
+- `:id` เป็น path parameter
+
+ตัวอย่าง:
+
+```http
+GET /api/v1/publishers/1
+GET /api/v1/authors/1
+GET /api/v1/categories/1
+GET /api/v1/books/1
+```
+
+### Publisher
+
+| Method | Endpoint               | Description                                  |
+| ------ | ---------------------- | -------------------------------------------- |
+| GET    | /api/v1/publishers     | ดึงข้อมูลสำนักพิมพ์ทั้งหมด                   |
+| GET    | /api/v1/publishers/:id | ดึงข้อมูลสำนักพิมพ์ตาม ID                    |
+| POST   | /api/v1/publishers     | สร้างสำนักพิมพ์ใหม่                          |
+| PUT    | /api/v1/publishers/:id | อัปเดตข้อมูลสำนักพิมพ์                       |
+| DELETE | /api/v1/publishers/:id | ลบสำนักพิมพ์ (รวมหนังสือที่สังกัดสำนักพิมพ์) |
+
+Example response (GET /api/v1/publishers)
+
 ```json
 [
-  {
-    "id": 1,
-    "name": "Penguin Random House",
-    "email": "contact@penguinrandomhouse.com",
-    "phone": "2123662000",
-    "address": "1745 Broadway, New York, NY 10019",
-    "created_at": "2026-05-14T06:00:00.000Z",
-    "updated_at": "2026-05-14T06:00:00.000Z"
-  }
+	{
+		"id": 1,
+		"name": "Penguin Random House",
+		"email": "contact@penguinrandomhouse.com",
+		"phone": "2123662000",
+		"address": "1745 Broadway, New York, NY 10019"
+	}
 ]
 ```
 
----
+Example params (Publisher)
 
-### GET /api/v1/publishers/:id
-ดึงข้อมูลสำนักพิมพ์ตาม ID
-
-**Response 200**
 ```json
 {
-  "id": 1,
-  "name": "Penguin Random House",
-  "email": "contact@penguinrandomhouse.com",
-  "phone": "2123662000",
-  "address": "1745 Broadway, New York, NY 10019",
-  "created_at": "2026-05-14T06:00:00.000Z",
-  "updated_at": "2026-05-14T06:00:00.000Z"
+	"publisher": {
+		"name": "Penguin Random House",
+		"email": "contact@penguinrandomhouse.com",
+		"phone": "2123662000",
+		"address": "1745 Broadway, New York, NY 10019"
+	}
 }
 ```
 
----
+### Author
 
-### POST /api/v1/publishers
-สร้างสำนักพิมพ์ใหม่
+| Method | Endpoint            | Description             |
+| ------ | ------------------- | ----------------------- |
+| GET    | /api/v1/authors     | ดึงข้อมูลผู้แต่งทั้งหมด |
+| GET    | /api/v1/authors/:id | ดึงข้อมูลผู้แต่งตาม ID  |
+| POST   | /api/v1/authors     | สร้างผู้แต่งใหม่        |
+| PUT    | /api/v1/authors/:id | อัปเดตข้อมูลผู้แต่ง     |
+| DELETE | /api/v1/authors/:id | ลบผู้แต่งตาม ID         |
 
-**Request Body**
-```json
-{
-  "publisher": {
-    "name": "Penguin Random House",
-    "email": "contact@penguinrandomhouse.com",
-    "phone": "2123662000",
-    "address": "1745 Broadway, New York, NY 10019"
-  }
-}
-```
+Example response (GET /api/v1/authors)
 
-**Response 201**
-```json
-{
-  "id": 1,
-  "name": "Penguin Random House",
-  "email": "contact@penguinrandomhouse.com",
-  "phone": "2123662000",
-  "address": "1745 Broadway, New York, NY 10019",
-  "created_at": "2026-05-14T06:00:00.000Z",
-  "updated_at": "2026-05-14T06:00:00.000Z"
-}
-```
-
----
-
-### PATCH /api/v1/publishers/:id
-อัปเดตข้อมูลสำนักพิมพ์ (ส่งเฉพาะ field ที่ต้องการเปลี่ยน)
-
-**Request Body**
-```json
-{
-  "publisher": {
-    "phone": "0999990000"
-  }
-}
-```
-
-**Response 200** — คืน object ที่อัปเดตแล้ว
-
----
-
-### DELETE /api/v1/publishers/:id
-ลบสำนักพิมพ์ตาม ID (จะลบหนังสือที่สังกัดสำนักพิมพ์นั้นด้วย)
-
-**Response 200**
-```json
-{ "message": "Publisher deleted successfully" }
-```
-
----
-
-## Authors (ผู้แต่ง)
-
-### GET /api/v1/authors
-ดึงข้อมูลผู้แต่งทั้งหมด
-
-**Response 200**
 ```json
 [
-  {
-    "id": 1,
-    "name": "George Orwell",
-    "email": "gorwell@example.com",
-    "phone": "0555010101",
-    "created_at": "2026-05-14T06:00:00.000Z",
-    "updated_at": "2026-05-14T06:00:00.000Z"
-  }
+	{
+		"id": 1,
+		"name": "George Orwell",
+		"email": "gorwell@example.com",
+		"phone": "0555010101"
+	}
 ]
 ```
 
----
+Example params (Author)
 
-### GET /api/v1/authors/:id
-ดึงข้อมูลผู้แต่งตาม ID
-
-**Response 200** — คืน object ของผู้แต่ง
-
----
-
-### POST /api/v1/authors
-สร้างผู้แต่งใหม่
-
-**Request Body**
 ```json
 {
-  "author": {
-    "name": "George Orwell",
-    "email": "gorwell@example.com",
-    "phone": "0555010101"
-  }
+	"author": {
+		"name": "George Orwell",
+		"email": "gorwell@example.com",
+		"phone": "0555010101"
+	}
 }
 ```
 
-**Response 201** — คืน object ของผู้แต่งที่สร้าง
+### Category
 
----
+| Method | Endpoint               | Description              |
+| ------ | ---------------------- | ------------------------ |
+| GET    | /api/v1/categories     | ดึงข้อมูลหมวดหมู่ทั้งหมด |
+| GET    | /api/v1/categories/:id | ดึงข้อมูลหมวดหมู่ตาม ID  |
+| POST   | /api/v1/categories     | สร้างหมวดหมู่ใหม่        |
+| PUT    | /api/v1/categories/:id | อัปเดตข้อมูลหมวดหมู่     |
+| DELETE | /api/v1/categories/:id | ลบหมวดหมู่ตาม ID         |
 
-### PATCH /api/v1/authors/:id
-อัปเดตข้อมูลผู้แต่ง
+Example response (GET /api/v1/categories)
 
-**Request Body**
-```json
-{
-  "author": {
-    "email": "newemail@example.com"
-  }
-}
-```
-
-**Response 200** — คืน object ที่อัปเดตแล้ว
-
----
-
-### DELETE /api/v1/authors/:id
-ลบผู้แต่งตาม ID
-
-**Response 200**
-```json
-{ "message": "Author deleted successfully" }
-```
-
----
-
-## Categories (หมวดหมู่)
-
-### GET /api/v1/categories
-ดึงข้อมูลหมวดหมู่ทั้งหมด
-
-**Response 200**
 ```json
 [
-  {
-    "id": 1,
-    "name": "Fiction",
-    "description": "Fictional literature",
-    "created_at": "2026-05-14T06:00:00.000Z",
-    "updated_at": "2026-05-14T06:00:00.000Z"
-  }
+	{
+		"id": 1,
+		"name": "Fiction",
+		"description": "Fictional literature"
+	}
 ]
 ```
 
----
+Example params (Category)
 
-### GET /api/v1/categories/:id
-ดึงข้อมูลหมวดหมู่ตาม ID
-
-**Response 200** — คืน object ของหมวดหมู่
-
----
-
-### POST /api/v1/categories
-สร้างหมวดหมู่ใหม่
-
-**Request Body**
 ```json
 {
-  "category": {
-    "name": "Fiction",
-    "description": "Fictional literature"
-  }
+	"category": {
+		"name": "Fiction",
+		"description": "Fictional literature"
+	}
 }
 ```
 
-**Response 201** — คืน object ของหมวดหมู่ที่สร้าง
+### Book
 
----
+| Method | Endpoint          | Description                                                  |
+| ------ | ----------------- | ------------------------------------------------------------ |
+| GET    | /api/v1/books     | ดึงข้อมูลหนังสือทั้งหมด (พร้อม authors, publisher, category) |
+| GET    | /api/v1/books/:id | ดึงข้อมูลหนังสือตาม ID (พร้อม authors, publisher, category)  |
+| POST   | /api/v1/books     | สร้างหนังสือใหม่                                             |
+| PUT    | /api/v1/books/:id | อัปเดตข้อมูลหนังสือ                                          |
+| DELETE | /api/v1/books/:id | ลบหนังสือตาม ID                                              |
 
-### PATCH /api/v1/categories/:id
-อัปเดตข้อมูลหมวดหมู่
+Example response (GET /api/v1/books)
 
-**Request Body**
-```json
-{
-  "category": {
-    "description": "Updated description"
-  }
-}
-```
-
-**Response 200** — คืน object ที่อัปเดตแล้ว
-
----
-
-### DELETE /api/v1/categories/:id
-ลบหมวดหมู่ตาม ID
-
-**Response 200**
-```json
-{ "message": "Category deleted successfully" }
-```
-
----
-
-## Books (หนังสือ)
-
-### GET /api/v1/books
-ดึงข้อมูลหนังสือทั้งหมด (พร้อม authors, publisher, category)
-
-**Response 200**
 ```json
 [
-  {
-    "id": 1,
-    "title": "1984",
-    "price": "12.99",
-    "publisher_id": 1,
-    "category_id": 1,
-    "created_at": "2026-05-14T06:00:00.000Z",
-    "updated_at": "2026-05-14T06:00:00.000Z",
-    "authors": [...],
-    "publisher": {...},
-    "category": {...}
-  }
+	{
+		"id": 1,
+		"title": "1984",
+		"price": "12.99",
+		"publisher_id": 1,
+		"category_id": 1,
+		"authors": [
+			{
+				"id": 1,
+				"name": "George Orwell"
+			}
+		],
+		"publisher": {
+			"id": 1,
+			"name": "Penguin Random House"
+		},
+		"category": {
+			"id": 1,
+			"name": "Fiction"
+		}
+	}
 ]
 ```
 
----
+Example params (Book)
 
-### GET /api/v1/books/:id
-ดึงข้อมูลหนังสือตาม ID (พร้อม authors, publisher, category)
-
-**Response 200** — คืน object ของหนังสือ
-
----
-
-### POST /api/v1/books
-
-**Request Body**
 ```json
 {
-  "book": {
-    "title": "1984",
-    "price": 12.99,
-    "publisher_id": 1,
-    "category_id": 1,
-    "author_ids": [1, 2]
-  }
+	"book": {
+		"title": "1984",
+		"price": 12.99,
+		"publisher_id": 1,
+		"category_id": 1,
+		"author_ids": [1, 2]
+	}
 }
-```
-
-**Response 201** — คืน object ของหนังสือที่สร้าง
-
----
-
-### PATCH /api/v1/books/:id
-อัปเดตข้อมูลหนังสือ
-
-**Request Body**
-```json
-{
-  "book": {
-    "price": 15.99,
-    "author_ids": [1, 2, 3]
-  }
-}
-```
-
-**Response 200** — คืน object ที่อัปเดตแล้ว
-
----
-
-### DELETE /api/v1/books/:id
-ลบหนังสือตาม ID
-
-**Response 200**
-```json
-{ "message": "Book deleted successfully" }
 ```
 
 ---
 
 ## Error Responses
 
-| Status | ความหมาย |
-|--------|----------|
-| 404 | ไม่พบ resource ที่ระบุ |
-| 422 | ข้อมูลที่ส่งมาไม่ถูกต้อง (Unprocessable Content) |
-
-**ตัวอย่าง 422**
-```json
-{
-  "message": ["Title can't be blank", "Price can't be blank"]
-}
-```
+| Status | ความหมาย                                         |
+| ------ | ------------------------------------------------ |
+| 404    | ไม่พบ resource ที่ระบุ                           |
+| 422    | ข้อมูลที่ส่งมาไม่ถูกต้อง (Unprocessable Content) |
 
 ---
 
 ## Health Check
 
-### GET /up
-ตรวจสอบสถานะของ server
+ตรวจสอบสถานะของ server `GET /up`
 
 **Response 200** — server ทำงานปกติ
-
-
-### POST /api/v1/books
-สร้างหนังสือใหม่
-
-**Request Body**
-```json
-{
-  "book": {
-    "title": "1984",
-    "price": 12.99,
-    "stock": 45,
-    "publisher_id": 1
-  }
-}
-```
-
-**Response 201** — คืน object ของหนังสือที่สร้าง
-
----
-
-### PATCH /api/v1/books/:id
-อัปเดตข้อมูลหนังสือ
-
-**Request Body**
-```json
-{
-  "book": {
-    "price": 15.99,
-    "stock": 100
-  }
-}
-```
-
-**Response 200** — คืน object ที่อัปเดตแล้ว
-
----
-
-### DELETE /api/v1/books/:id
-ลบหนังสือตาม ID
-
-**Response 204 No Content**
-
----
-
-## Error Responses
-
-| Status | ความหมาย |
-|--------|----------|
-| 404 | ไม่พบ resource ที่ระบุ |
-| 422 | ข้อมูลที่ส่งมาไม่ถูกต้อง (Unprocessable Content) |
-
-**ตัวอย่าง 422**
-```json
-{
-  "title": ["can't be blank"],
-  "publisher_id": ["can't be blank"]
-}
-```
-
----
-
-## Health Check
-
-### GET /up
-ตรวจสอบสถานะของ server
-
-**Response 200** — server ทำงานปกติ
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
