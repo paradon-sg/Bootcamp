@@ -1,24 +1,5 @@
----
-marp: true
-title: TypeScript Bootcamp
-author: Bootcamp Team
-paginate: true
-theme: default
-style: |
-  section {
-    font-family: "Aptos", "Segoe UI", sans-serif;
-  }
-  h1, h2 {
-    color: #0f172a;
-  }
-  code {
-    font-size: 0.9em;
-  }
----
-
-# TypeScript Bootcamp
-
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [Environment Setup](#environment-setup)
 3. [Core Concepts](#core-concepts)
@@ -30,65 +11,45 @@ style: |
 9. [Configuration](#configuration)
 10. [Best Practices](#best-practices)
 
----
-
 ## Introduction
+
+TypeScript คือ strongly typed superset ของ JavaScript ที่ compile เป็น plain JavaScript ช่วยให้ตรวจจับ error ได้ตั้งแต่ตอน compile ก่อนรันโปรแกรม
 
 TypeScript is a strongly typed superset of JavaScript that compiles to plain JavaScript. It adds optional static typing, classes, and interfaces to help build robust applications.
 
 ### Why TypeScript?
-- **Static Typing**: Catch errors at compile time
-- **IDE Support**: Better autocomplete and refactoring
-- **Modern JavaScript**: Use latest features with backward compatibility
-- **Scalability**: Ideal for large codebases and teams
 
----
+- **Static Typing**: จับ error ได้ตั้งแต่ compile time
+- **IDE Support**: Autocomplete และ refactoring ที่ดีขึ้น
+- **Modern JavaScript**: ใช้ฟีเจอร์ล่าสุดได้ทันที
+- **Scalability**: เหมาะกับโปรเจกต์ขนาดใหญ่และทีม
 
 ## Environment Setup
 
-### Installation
-```bash
-# Global installation
-npm install -g typescript
+ติดตั้ง TypeScript แบบ global และสร้างไฟล์ config ด้วย `tsc --init`
 
-# Project initialization
-mkdir ts-bootcamp
-cd ts-bootcamp
-npm init -y
-npm install typescript --save-dev
+```bash
+npm install -g typescript
 npx tsc --init
 ```
 
-### Basic Configuration (`tsconfig.json`)
+**`tsconfig.json`**
+
 ```json
 {
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
     "strict": true,
-    "esModuleInterop": true,
     "outDir": "./dist",
     "rootDir": "./src"
-  },
-  "include": ["src/**/*"]
+  }
 }
 ```
 
-### First Program
-```typescript
-// src/index.ts
-function greet(name: string): string {
-  return `Hello, ${name}!`;
-}
-
-console.log(greet("Bootcamp"));
-```
-
-### Compilation
 ```bash
-npx tsc
-# Or watch mode
-npx tsc --watch
+npx tsc          # Compile once
+npx tsc --watch  # Watch mode
 ```
 
 ---
@@ -96,123 +57,83 @@ npx tsc --watch
 ## Core Concepts
 
 ### Basic Types
+
+ประเภทข้อมูลพื้นฐานใน TypeScript ได้แก่ `boolean`, `number`, `string`, `array`, `tuple`, `enum` และ `unknown`
+
 ```typescript
 // Primitives
 let isActive: boolean = true;
 let count: number = 42;
 let username: string = "developer";
 
-// Arrays
+// Arrays & Tuples
 let numbers: number[] = [1, 2, 3];
-let names: Array<string> = ["Alice", "Bob"];
-
-// Tuples
 let point: [number, number] = [10, 20];
 
-// Enums
+// Enum
 enum Status {
   Pending = "PENDING",
   Approved = "APPROVED",
-  Rejected = "REJECTED"
+  Rejected = "REJECTED",
 }
 
-// Any & Unknown
-let flexible: any = 4;
-flexible = "string";
-flexible = true;
-
+// unknown requires type checking; any skips it
 let safe: unknown = 4;
-// Requires type checking before use
 if (typeof safe === "number") {
   console.log(safe.toFixed());
 }
-
-// Void, Null, Undefined
-function logMessage(): void {
-  console.log("No return value");
-}
-
-let empty: null = null;
-let notSet: undefined = undefined;
 ```
 
-### Type Inference
-```typescript
-// TypeScript infers types automatically
-let inferred = "hello"; // Type: string
-let autoNumber = 100;     // Type: number
+### Type Inference & Assertions
 
-// Contextual typing
-const numbers = [1, 2, 3];
-numbers.forEach(n => {
-  // n is inferred as number
-  console.log(n.toFixed(2));
-});
-```
+TypeScript สามารถ **infer type** ได้อัตโนมัติจากค่าที่กำหนด ส่วน **Type Assertion** ใช้บอก TypeScript ว่า value นั้นเป็น type ใด
 
-### Type Assertions
 ```typescript
-let someValue: unknown = "this is a string";
+let inferred = "hello"; // inferred as string
+let count = 100; // inferred as number
+
+// Type assertion
+let someValue: unknown = "hello";
 let strLength: number = (someValue as string).length;
-// Alternative syntax
-let strLength2: number = (<string>someValue).length;
 ```
 
 ### Interfaces
+
+กำหนดรูปแบบ (shape) ของ object รองรับ optional property (`?`), readonly property และสามารถ `extend` ได้
+
 ```typescript
 interface User {
   id: number;
   name: string;
-  email?: string;        // Optional property
-  readonly createdAt: Date; // Readonly property
+  email?: string; // Optional
+  readonly createdAt: Date; // Readonly
 }
 
-function createUser(user: User): User {
-  return user;
-}
-
-// Extending interfaces
+// Extending
 interface Admin extends User {
   permissions: string[];
 }
-
-// Interface for functions
-interface Calculator {
-  (x: number, y: number): number;
-}
-
-const add: Calculator = (a, b) => a + b;
 ```
 
 ### Type Aliases
-```typescript
-type Point = {
-  x: number;
-  y: number;
-};
 
+ตั้งชื่อให้กับ type เพื่อนำกลับมาใช้ซ้ำ ใช้ `&` สำหรับ intersection type
+
+```typescript
+type Point = { x: number; y: number };
 type ID = string | number;
 
-// Intersection types
-type Employee = {
-  name: string;
-  id: number;
-};
-
-type Manager = Employee & {
-  team: string[];
-};
+// Intersection
+type Manager = { name: string; id: number } & { team: string[] };
 ```
 
 ### Functions
-```typescript
-// Parameter types and return type
-function add(a: number, b: number): number {
-  return a + b;
-}
 
-// Optional and default parameters
-function greet(name: string, greeting: string = "Hello"): string {
+กำหนด type ของ parameter และ return value รองรับ optional parameter, default value, rest parameter และ overloads
+
+```typescript { return a + b; }
+// Optional & default parameters
+function greet(name: string, greeting = "Hello"): string {
   return `${greeting}, ${name}!`;
 }
 
@@ -221,14 +142,11 @@ function sum(...numbers: number[]): number {
   return numbers.reduce((a, b) => a + b, 0);
 }
 
-// Function overloads
+// Overloads
 function process(input: string): string;
 function process(input: number): number;
 function process(input: any): any {
-  if (typeof input === "string") {
-    return input.toUpperCase();
-  }
-  return input * 2;
+  return typeof input === "string" ? input.toUpperCase() : input * 2;
 }
 ```
 
@@ -237,86 +155,66 @@ function process(input: any): any {
 ## Advanced Types
 
 ### Union & Intersection Types
+
+**Union** (`|`) ใช้บอกว่า value เป็นได้หลาย type / **Intersection** (`&`) รวม type หลายตัวเข้าด้วยกัน
+
 ```typescript
-// Union: value can be one of several types
 type Status = "loading" | "success" | "error";
 type StringOrNumber = string | number;
 
-function printId(id: StringOrNumber) {
-  if (typeof id === "string") {
-    console.log(id.toUpperCase());
-  } else {
-    console.log(id.toFixed(2));
-  }
-}
-
-// Intersection: combines multiple types
-type Draggable = {
-  drag: () => void;
-};
-
-type Resizable = {
-  resize: () => void;
-};
-
-type UIWidget = Draggable & Resizable;
+// Intersection
+type UIWidget = { drag: () => void } & { resize: () => void };
 ```
 
 ### Literal Types
+
+จำกัดค่าให้เป็นได้เฉพาะค่าที่กำหนดไว้เท่านั้น (ทั้ง string และ number)
+
 ```typescript
 type Direction = "north" | "south" | "east" | "west";
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
-
-function move(direction: Direction) {
-  // direction is strictly typed
-}
-
-// Numeric literals
 type DiceRoll = 1 | 2 | 3 | 4 | 5 | 6;
 ```
 
 ### Nullable Types
+
+จัดการค่าที่อาจเป็น `null` หรือ `undefined` แนะนำใช้ optional chaining (`?.`) แต่น non-null assertion (`!`)
+
 ```typescript
 let maybeString: string | null = null;
-maybeString = "hello";
 
 // Non-null assertion (use with caution)
-function getLength(str: string | null) {
-  return str!.length;
+function getLength(str: string | null): number {
+  return str?.length ?? 0; // Prefer optional chaining
 }
 ```
 
 ### Type Guards
+
+ตรวจสอบ type ณ runtime ทำให้ TypeScript รู้จัก type ที่แท้จริงภายใน block นั้น
+
 ```typescript
 interface Bird {
   fly: () => void;
   layEggs: () => void;
 }
-
 interface Fish {
   swim: () => void;
   layEggs: () => void;
 }
 
-function getSmallPet(): Fish | Bird {
-  // ...
-}
-
-let pet = getSmallPet();
-
-// Type guard using typeof
 function isFish(pet: Fish | Bird): pet is Fish {
   return (pet as Fish).swim !== undefined;
 }
 
-if (isFish(pet)) {
-  pet.swim(); // TypeScript knows this is Fish
-} else {
-  pet.fly();  // TypeScript knows this is Bird
-}
+const pet: Fish | Bird = { swim: () => {}, layEggs: () => {} };
+isFish(pet) ? pet.swim() : pet.fly();
 ```
 
 ### Discriminated Unions
+
+ใช้ property พิเศษ (discriminant) เช่น `kind` เพื่อแยกแยะ type ใน union ทำให้ TypeScript สามารถ narrow type ผ่าน `switch` statement
+
 ```typescript
 interface Square {
   kind: "square";
@@ -349,16 +247,20 @@ function area(shape: Shape): number {
 ```
 
 ### Mapped Types
+
+สร้าง type ใหม่โดย map จาก properties ของ type เดิม เป็นพื้นฐานของ utility types อย่าง `Readonly<T>`, `Partial<T>`
+
 ```typescript
-type Readonly<T> = {
+// Custom implementations (mirrors how built-in utility types work internally)
+type MyReadonly<T> = {
   readonly [P in keyof T]: T[P];
 };
 
-type Partial<T> = {
+type MyPartial<T> = {
   [P in keyof T]?: T[P];
 };
 
-type Pick<T, K extends keyof T> = {
+type MyPick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
 
@@ -369,16 +271,19 @@ interface Todo {
   completed: boolean;
 }
 
-type TodoPreview = Pick<Todo, "title" | "completed">;
-type ReadonlyTodo = Readonly<Todo>;
-type PartialTodo = Partial<Todo>;
+type TodoPreview = MyPick<Todo, "title" | "completed">;
+type ReadonlyTodo = MyReadonly<Todo>;
+type PartialTodo = MyPartial<Todo>;
 ```
 
 ### Conditional Types
+
+กำหนด type แบบมีเงื่อนไข (`T extends X ? A : B`) คล้าย ternary operator
+
 ```typescript
 type IsString<T> = T extends string ? true : false;
 
-type A = IsString<string>;  // true
+type A = IsString<string>; // true
 type B = IsString<number>; // false
 
 // Extract and Exclude
@@ -387,8 +292,10 @@ type T1 = Exclude<"a" | "b" | "c", "a" | "f">; // "b" | "c"
 ```
 
 ### Utility Types
+
+TypeScript มี built-in utility types พร้อมใช้สำหรับแปลง type ที่มีอยู่ ไม่ต้องเขียนเอง
+
 ```typescript
-interface User {
   id: number;
   name: string;
   email: string;
@@ -425,6 +332,9 @@ type NewUser = ReturnType<typeof createUser>;
 ## Classes & OOP
 
 ### Class Basics
+
+กำหนด property, method, getter/setter, static member และ access modifiers (`public`, `private`, `protected`)
+
 ```typescript
 class Animal {
   // Property types
@@ -466,12 +376,15 @@ class Person {
   constructor(
     public name: string,
     private age: number,
-    readonly id: number
+    readonly id: number,
   ) {}
 }
 ```
 
 ### Inheritance
+
+สืบทอด class ด้วย `extends` และเรียก constructor ของ parent class ด้วย `super()` สามาถ override method ได้
+
 ```typescript
 class Dog extends Animal {
   constructor(name: string, age: number) {
@@ -495,6 +408,9 @@ dog.move();
 ```
 
 ### Abstract Classes
+
+Class ที่ไม่สามารถ instantiate ได้โดยตรง ต้อง extend ก่อน กำหนดเพียงโครงสร้าง ลูกคลาสต้องเติม implementation
+
 ```typescript
 abstract class Department {
   constructor(public name: string) {}
@@ -518,21 +434,18 @@ class AccountingDepartment extends Department {
 ```
 
 ### Interfaces with Classes
+
+ใช้ `implements` บังคับให้ class มี property/method ตามที่ interface กำหนด
+
 ```typescript
 interface ClockInterface {
   currentTime: Date;
   setTime(d: Date): void;
 }
 
-interface ClockConstructor {
-  new (hour: number, minute: number): ClockInterface;
-}
-
 class Clock implements ClockInterface {
   currentTime: Date = new Date();
-
   constructor(h: number, m: number) {}
-
   setTime(d: Date): void {
     this.currentTime = d;
   }
@@ -544,6 +457,9 @@ class Clock implements ClockInterface {
 ## Modules & Namespaces
 
 ### Exporting
+
+ใช้ `export` เพื่อเปิดเผย interface, class, หรือตัวแปรให้ module อื่น import ไปใช้ได้
+
 ```typescript
 // math.ts
 export interface Shape {
@@ -568,6 +484,9 @@ export default class Calculator {
 ```
 
 ### Importing
+
+นำเข้า module ด้วย `import` สามารถ import แบบ named, default หรือ import ทั้งหมดด้วย `* as`
+
 ```typescript
 // main.ts
 import Calculator, { Circle, PI, Shape } from "./math";
@@ -579,6 +498,9 @@ console.log(circle.area());
 ```
 
 ### Re-exporting
+
+ส่งต่อ exports จากหลายไฟล์ผ่าน barrel file (`index.ts`) สะดวกในการ import
+
 ```typescript
 // index.ts
 export * from "./math";
@@ -586,6 +508,9 @@ export { default as Calculator } from "./calculator";
 ```
 
 ### Namespaces
+
+รวมกลุ่ม code ให้อยู่ใน namespace เดียวกัน เหมาะสำหรับโปรเจกต์ที่ไม่ใช้ ES module system
+
 ```typescript
 namespace Validation {
   export interface StringValidator {
@@ -607,40 +532,32 @@ const validator = new Validation.EmailValidator();
 
 ## Generics
 
-### Generic Functions
+### Generic Functions & Interfaces
+
+เขียน function หรือ interface ที่รองรับหลาย type โดยไม่ต้องเขียนซ้ำ ใช้ได้ทั้ง `string`, `number` หรือ type ใดก็ได้
+
 ```typescript
 function identity<T>(arg: T): T {
   return arg;
 }
 
-let output = identity<string>("myString");
-let inferred = identity("myString"); // Type inferred
-
-// Generic with constraints
-interface Lengthwise {
-  length: number;
-}
-
-function loggingIdentity<T extends Lengthwise>(arg: T): T {
+// With constraints
+function loggingIdentity<T extends { length: number }>(arg: T): T {
   console.log(arg.length);
   return arg;
 }
-```
 
-### Generic Interfaces
-```typescript
+// Generic interface
 interface GenericIdentityFn<T> {
   (arg: T): T;
 }
-
-function identity<T>(arg: T): T {
-  return arg;
-}
-
 let myIdentity: GenericIdentityFn<number> = identity;
 ```
 
 ### Generic Classes
+
+สร้าง class ที่ทำงานได้กับ type ใดก็ได้
+
 ```typescript
 class GenericNumber<T> {
   zeroValue: T;
@@ -656,6 +573,9 @@ let myGenericNumber = new GenericNumber<number>(0, (x, y) => x + y);
 ```
 
 ### Generic Constraints with keyof
+
+จำกัด generic type `K` ให้เป็นได้เฉพาะ key ที่มีใน object `T` เท่านั้น
+
 ```typescript
 function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
   return obj[key];
@@ -670,7 +590,12 @@ getProperty(x, "a"); // OK
 
 ## Decorators
 
+Decorators คือเครื่องมือเพิ่ม metadata หรือปรับแต่ง behavior ของ class, method หรือ property โดยไม่ต้องแก้ source code โดยตรง
+
 ### Enabling Decorators
+
+ต้องเปิดใช้งานใน `tsconfig.json` ก่อน
+
 ```json
 {
   "compilerOptions": {
@@ -681,6 +606,9 @@ getProperty(x, "a"); // OK
 ```
 
 ### Class Decorators
+
+ใช้กับ class โดยตรง เช่น `@sealed` ป้องกันไม่ให้เพิ่ม property ใหม่ใน class
+
 ```typescript
 function sealed(constructor: Function) {
   Object.seal(constructor);
@@ -700,12 +628,15 @@ class Greeter {
 ```
 
 ### Method Decorators
+
+ใช้กับ method เช่น `@enumerable(false)` ซ่อน method จาก `for...in` loop
+
 ```typescript
 function enumerable(value: boolean) {
   return function (
     target: any,
     propertyKey: string,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ) {
     descriptor.enumerable = value;
   };
@@ -725,22 +656,18 @@ class Greeter {
 ```
 
 ### Property Decorators
+
+ใช้กับ property เช่น `@format("Hello, %s")` แปลงค่าค่าอัตโนมัติเมื่อ set
+
 ```typescript
 function format(formatString: string) {
   return function (target: any, propertyKey: string) {
     let value: string;
-
-    const getter = function () {
-      return value;
-    };
-
-    const setter = function (newVal: string) {
-      value = formatString.replace("%s", newVal);
-    };
-
     Object.defineProperty(target, propertyKey, {
-      get: getter,
-      set: setter,
+      get: () => value,
+      set: (newVal: string) => {
+        value = formatString.replace("%s", newVal);
+      },
       enumerable: true,
       configurable: true,
     });
@@ -748,9 +675,7 @@ function format(formatString: string) {
 }
 
 class User {
-  @format("Hello, %s")
-  name: string;
-
+  @format("Hello, %s") name: string;
   constructor(name: string) {
     this.name = name;
   }
@@ -764,47 +689,31 @@ console.log(user.name); // "Hello, John"
 
 ## Configuration
 
-### Compiler Options
+ตัวอย่าง `tsconfig.json` สำหรับโปรเจกต์ทั่วไป รองรับ path alias และ strict mode
+
 ```json
 {
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2020", "DOM"],
-    "jsx": "react",
-
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-
     "moduleResolution": "node",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"]
-    },
-
+    "paths": { "@/*": ["src/*"] },
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-
     "declaration": true,
-    "declarationMap": true,
     "sourceMap": true,
-
     "outDir": "./dist",
-    "rootDir": "./src",
-    "removeComments": true
+    "rootDir": "./src"
   }
 }
 ```
 
-### Path Mapping
 ```typescript
-// With paths configured in tsconfig.json
+// Path aliases
 import { Button } from "@components/Button";
 import { utils } from "@/utils";
 ```
@@ -813,87 +722,68 @@ import { utils } from "@/utils";
 
 ## Best Practices
 
+แนวทางปฏิบัติที่ดีสำหรับการเขียน TypeScript ให้อ่านง่ายและปลอดภัย
+
 ### 1. Enable Strict Mode
+
 Always use `"strict": true` in `tsconfig.json` for maximum type safety.
 
-### 2. Avoid `any`
+### 2. Avoid `any` — Use `unknown` Instead
+
 ```typescript
 // Bad
-function process(data: any): any {
-  return data;
+function handle(data: any) {
+  return data.toString();
 }
 
 // Good
+function handle(data: unknown) {
+  if (typeof data === "string") return data.toUpperCase();
+  throw new Error("Expected string");
+}
+
+// Better for generics
 function process<T>(data: T): T {
   return data;
 }
 ```
 
 ### 3. Use Type Inference
-```typescript
-// Unnecessary type annotation
-const name: string = "John";
 
-// Better - let TypeScript infer
-const name = "John";
+```typescript
+const name: string = "John"; // unnecessary annotation
+const name = "John"; // better
 ```
 
 ### 4. Prefer Interfaces for Object Shapes
+
 ```typescript
-// Use interface for object types
 interface User {
   name: string;
-}
-
-// Use type for unions, tuples, etc.
-type Status = "active" | "inactive";
+} // use for objects
+type Status = "active" | "inactive"; // use for unions/tuples
 ```
 
-### 5. Use `unknown` over `any`
-```typescript
-// Bad
-function handle(data: any) {
-  return data.toString(); // Might crash at runtime
-}
+### 5. Leverage Utility Types
 
-// Good
-function handle(data: unknown) {
-  if (typeof data === "string") {
-    return data.toUpperCase();
-  }
-  throw new Error("Expected string");
-}
+```typescript
+type UpdateUser = Partial<User>; // instead of manual optional fields
 ```
 
-### 6. Leverage Utility Types
-```typescript
-// Instead of manually creating partial types
-interface UpdateUser {
-  name?: string;
-  email?: string;
-}
+### 6. Explicit Return Types for Public APIs
 
-// Use built-in utility
-type UpdateUser = Partial<User>;
-```
-
-### 7. Explicit Return Types
 ```typescript
-// Good practice for public APIs
 export function calculateTotal(items: Item[]): number {
   return items.reduce((sum, item) => sum + item.price, 0);
 }
 ```
 
-### 8. Use `readonly` When Possible
+### 7. Use `readonly` When Possible
+
 ```typescript
 interface Config {
   readonly apiUrl: string;
   readonly timeout: number;
-}
-
-function setup(config: Config) {
-  // config.apiUrl = "..."; // Error: readonly
 }
 ```
 
@@ -905,7 +795,3 @@ function setup(config: Config) {
 - [TypeScript Playground](https://www.typescriptlang.org/play)
 - [Definitely Typed](https://github.com/DefinitelyTyped/DefinitelyTyped) - Type definitions for JavaScript libraries
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
-
----
-
-**Happy Coding!**
