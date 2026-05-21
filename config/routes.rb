@@ -2,6 +2,13 @@
 
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
+    resources :sessions, only: [] do
+      collection do
+        post   :create
+        delete :destroy
+      end
+    end
+
     namespace :v1 do
       resources :authors
       resources :books

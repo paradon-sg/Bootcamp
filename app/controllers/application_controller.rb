@@ -2,16 +2,26 @@
 
 class ApplicationController < ActionController::API
   include PaginationHelper
-  
-  before_action :authenticated!
 
-  API_KEY = ENV.fetch('API_KEY', 'api-key').freeze
+  before_action :authenticate!
 
   private
 
-  def authenticated!
-    return if ActiveSupport::SecurityUtils.secure_compare(request.headers['X-API-KEY'].to_s, API_KEY)
+  attr_reader :current_user
 
+  def authenticate!
+    @current_user = User.find_by_token_for(:refresh_token, bearer_token)
+
+    return if current_user.present?
+
+    render_unauthorized
+  end
+
+  def bearer_token
+    request.headers['Authorization']&.split&.last
+  end
+
+  def render_unauthorized
     render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 end

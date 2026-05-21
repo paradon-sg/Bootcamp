@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_14_060442) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_21_023950) do
   create_table "authors", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
@@ -59,6 +59,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_060442) do
     t.datetime "updated_at", null: false
     t.index "LOWER(email)", name: "index_publishers_on_LOWER_email", unique: true
     t.index "LOWER(name), phone", name: "index_publishers_on_LOWER_name_phone", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "password_digest", null: false
+    t.string "refresh_token", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "book_authors", "authors"

@@ -11,5 +11,5 @@ class CreatePublishers < ActiveRecord::Migration[8.1]
 
     add_index :publishers, 'LOWER(email)',       unique: true
     add_index :publishers, 'LOWER(name), phone', unique: true
-end
+  end
 end
