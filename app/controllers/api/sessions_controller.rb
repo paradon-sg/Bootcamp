@@ -4,9 +4,9 @@ class Api::SessionsController < ApplicationController
   skip_before_action :authenticate!, only: %i[create]
 
   def create
-    user = User.find_by(email: params[:email])
+    user = User.authenticate_by(email: params[:email], password: params[:password])
 
-    if user&.authenticate(params[:password])
+    if user
       render json: login_response(user), status: :created
     else
       render json: { error: 'Invalid email or password' }, status: :unauthorized
